@@ -1,0 +1,60 @@
+.titelButton{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.ButtonEmptyList{
+  width: 90px;
+  height: 30px;
+  margin-left: 15px;
+  margin-top: 5px;
+  text-align: center;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', Verdana, sans-serif; 
+}
+
+.containerList{
+ 
+}
+
+    .titleCategory{
+    background-color: darkgrey;
+    padding-left: 5px;
+    }
+
+    .cartList{
+      display: block;
+    }
+
+        .iconDeleteCart{
+          display: inline;
+        }
+
+        .throughProductList{     
+          display: inline;
+          padding-left: 10px;
+          height: 0; 
+          text-decoration:line-through;
+       
+         }
+
+         .productList{
+          display: inline;
+          padding-left: 10px;
+          height: 0; 
+       
+         }
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+ 

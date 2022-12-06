@@ -1,0 +1,13 @@
+.cleanChecked{
+    display: flex;
+    order: -1;
+  }
+.buttonClearChecked{
+  width: 90px;
+  height: 30px;
+  margin-left: 15px;
+  margin-top: 5px;
+  text-align: center;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', Verdana, sans-serif; 
+} 
+

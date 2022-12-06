@@ -1,0 +1,15 @@
+.adminproducts{
+    display: flex;
+}
+
+.listProducts{
+    margin-left: 15px;
+}
+.iconEditProduct{
+    
+    padding-left: 5px;
+}
+.iconDeleteProduct{
+    padding-left: 5px;
+    padding-right: 5px;
+}
