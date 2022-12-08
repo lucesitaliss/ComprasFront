@@ -15,12 +15,10 @@ export default function App() {
         <Route exact path="/">
           <Cart />
         </Route>
-
         <Route path="/newcart">
           <NewCart />
         </Route>
-
-        <Route path="/newcart">
+        <Route path="/admin">
           <Admin />
         </Route>
       </Router>
