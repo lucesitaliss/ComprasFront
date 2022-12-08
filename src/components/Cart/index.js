@@ -1,119 +1,122 @@
-import React, { useEffect, useState } from 'react'
-import { RiDeleteBin6Line } from 'react-icons/ri'
+import React, { useEffect, useState } from "react";
+import { RiDeleteBin6Line } from "react-icons/ri";
 // import { useNavigate } from 'react-router-dom'
-import Swal from 'sweetalert2'
-import './cart.css'
+import Swal from "sweetalert2";
+import { getApiUrl } from "../../api";
+import "./cart.css";
 
 export default function Cart() {
-  const [productsSelect, setProductsSelect] = useState({})
+  const [productsSelect, setProductsSelect] = useState({});
   // const navegate = useNavigate()
 
   useEffect(() => {
-    getProductsSelections()
-  }, [])
+    getProductsSelections();
+  }, []);
 
   const getProductsSelections = async () => {
     try {
-      const response = await fetch(`http://www.localhost:4000/cart`)
-      const result = await response.json()
+      const urlApiCart = getApiUrl("cart");
+      const response = await fetch(urlApiCart);
+      const result = await response.json();
       if (response.ok) {
-        setProductsSelect(result)
+        setProductsSelect(result);
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   const insertHistorycart = async () => {
     try {
-      const response = await fetch('http://www.localhost:4000/history', {
-        method: 'POST',
-      })
+      const urlApiHistory = getApiUrl("history");
+      const response = await fetch(urlApiHistory, {
+        method: "POST",
+      });
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   const deleteCart = async () => {
-    const response = await fetch('http://www.localhost:4000/cart', {
-      method: 'DELETE',
-    })
+    const urlApiCart = getApiUrl("cart");
+    const response = await fetch(urlApiCart, {
+      method: "DELETE",
+    });
 
     if (response.ok) {
-      setProductsSelect([])
+      setProductsSelect([]);
     }
-  }
+  };
 
   const handleSumitCleanList = (e) => {
-    e.preventDefault()
-    insertHistorycart()
-    deleteCart()
+    e.preventDefault();
+    insertHistorycart();
+    deleteCart();
     // navegate('/')
-  }
+  };
 
   const handleSubmitProductList = async (id, selected) => {
     try {
       const bodyParams = {
         id,
         selected,
-      }
-      const response = await fetch(`http://www.localhost:4000/cart`, {
-        method: 'PUT',
+      };
+      const urlApiCart = getApiUrl("cart");
+      const response = await fetch(urlApiCart, {
+        method: "PUT",
         body: JSON.stringify(bodyParams),
-        headers: { 'content-type': 'application/json' },
-      })
+        headers: { "content-type": "application/json" },
+      });
       if (response.ok) {
-        getProductsSelections()
+        getProductsSelections();
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   const resetCheckedProduct = async (id) => {
-    const response = await fetch(
-      `http://www.localhost:4000/product/checked/reset/id/${id}`,
-      {
-        method: 'PUT',
-      },
-    )
-  }
+    const urlApiResetCheked = getApiUrl(`product/checked/reset/id/${id}`);
+    const response = await fetch(urlApiResetCheked, {
+      method: "PUT",
+    });
+  };
 
   const deleteCartById = async (id) => {
-    console.log(id)
-    const response = await fetch(`http://www.localhost:4000/cart/${id}`, {
-      method: 'DELETE',
-    })
+    const urlApiCartId = getApiUrl(`cart/${id}`);
+    const response = await fetch(urlApiCartId, {
+      method: "DELETE",
+    });
     if (response.ok) {
-      getProductsSelections()
+      getProductsSelections();
     }
-  }
+  };
 
   const handleSubmitDeleteCartById = (nameCart, idCart, idProduct) => {
     try {
       Swal.fire({
-        title: 'Delete',
+        title: "Delete",
         text: `Are you sure you want to delete the product ${nameCart} ?`,
-        icon: 'info',
-        buttons: ['cancel', 'Acept'],
+        icon: "info",
+        buttons: ["cancel", "Acept"],
       }).then((response) => {
         if (response) {
-          DeleteCartById(idCart, idProduct)
+          DeleteCartById(idCart, idProduct);
           Swal.fire({
-            text: 'The category has been deleted successfully',
-            icon: 'success',
-          })
+            text: "The category has been deleted successfully",
+            icon: "success",
+          });
         }
-      })
+      });
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   const DeleteCartById = (idCart, idProduct) => {
-    deleteCartById(idCart)
-    resetCheckedProduct(idProduct)
-  }
+    deleteCartById(idCart);
+    resetCheckedProduct(idProduct);
+  };
 
   return (
     <div>
@@ -141,16 +144,16 @@ export default function Cart() {
                   handleSubmitDeleteCartById(
                     product.name_product,
                     product.id_cart,
-                    product.product_id,
-                  )
+                    product.product_id
+                  );
                 }}
               />
               <h5
                 onClick={() => {
-                  handleSubmitProductList(product.id_cart, product.selected)
+                  handleSubmitProductList(product.id_cart, product.selected);
                 }}
                 className={
-                  product.selected ? 'throughProductList' : 'productList'
+                  product.selected ? "throughProductList" : "productList"
                 }
               >
                 {product.name_product}
@@ -160,5 +163,5 @@ export default function Cart() {
         </div>
       ))}
     </div>
-  )
+  );
 }

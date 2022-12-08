@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addCategorySelect } from "../../../features/category/categorySlice";
-import { api } from "../../../api";
+import { getApiUrl } from "../../../api";
 import "./categorySelect.css";
 
 export function CategorySelect() {
@@ -16,11 +16,10 @@ export function CategorySelect() {
     }
   };
 
-  const getCategories = async () => {
+  const getCategories = async () => { 
     try {
-      const response = await fetch("http://www.localhost:4000/categories");
-      // const response = await fetch(`${api}/categories`);
-
+      const apiUrl = getApiUrl("categories");
+      const response = await fetch(apiUrl);
       const result = await response.json();
       console.log(result);
       setCategories(result);

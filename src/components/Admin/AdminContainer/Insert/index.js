@@ -3,7 +3,7 @@ import "./insert.css";
 import { useDispatch, useSelector } from "react-redux";
 import { insertNewCategory } from "../../../../features/listCategory/listCategorySlice";
 import { insertNewProduct } from "../../../../features/listProducts/listProductsSlice";
-import { api } from "../../../../api";
+import { getApiUrl } from "../../../../api";
 
 export default function Insert({ name }) {
   const dispatch = useDispatch();
@@ -21,7 +21,7 @@ export default function Insert({ name }) {
     try {
       if (input) {
         if (name === "category") {
-          const apiUrl = api("category");
+          const apiUrl = getApiUrl("category");
           const result = await fetch(apiUrl, {
             method: "POST",
             body: JSON.stringify(input),
@@ -34,7 +34,8 @@ export default function Insert({ name }) {
           }
         }
         if (name === "product") {
-          const result = await fetch("http://www.localhost:4000/product", {
+          const apiUrl = getApiUrl("product");
+          const result = await fetch(apiUrl, {
             method: "POST",
             body: JSON.stringify(dataProduct),
             headers: { "content-type": "application/json" },

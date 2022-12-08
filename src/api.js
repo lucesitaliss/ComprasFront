@@ -1,8 +1,9 @@
-export const api = (urlSegment) => {
+export const getApiUrl = (urlSegment) => {
   const projectStatus = "production";
+  // const projectStatus = "development";
   const url =
     projectStatus === "development"
-      ? "localhost:3000"
+      ? `http://www.localhost:4000/${urlSegment}`
       : `https://compras-backend-production.up.railway.app/${urlSegment}`;
   return url;
 };
