@@ -21,7 +21,8 @@ export default function Insert({ name }) {
         if (name === "category") {
           //const result = await fetch('http://www.localhost:4000/category', {
           const result = await fetch(
-            "https://comprasbackend-production.up.railway.app/category",
+            "https:/compras-backend-production.up.railway.app/category",
+
             {
               method: "POST",
               body: JSON.stringify(input),
