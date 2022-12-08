@@ -7,7 +7,7 @@ import { api } from "../../../../api";
 
 export default function Insert({ name }) {
   const dispatch = useDispatch();
-  const apiUrl = api();
+
   const { categoryId } = useSelector((state) => state.categorySelect);
 
   const [input, setInput] = useState({ category: "" });
@@ -21,16 +21,12 @@ export default function Insert({ name }) {
     try {
       if (input) {
         if (name === "category") {
-          const result = await fetch(
-            // "https://compras-backend-production.up.railway.app/category",
-            `${apiUrl}/category`,
-
-            {
-              method: "POST",
-              body: JSON.stringify(input),
-              headers: { "content-type": "application/json" },
-            }
-          );
+          const apiUrl = api("category");
+          const result = await fetch(apiUrl, {
+            method: "POST",
+            body: JSON.stringify(input),
+            headers: { "content-type": "application/json" },
+          });
           if (result.ok) {
             const newCategory = await result.json();
             dispatch(insertNewCategory(newCategory));
