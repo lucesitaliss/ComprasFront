@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { RiDeleteBin6Line } from 'react-icons/ri'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import './cart.css'
 
 export default function Cart() {
   const [productsSelect, setProductsSelect] = useState({})
-  const navegate = useNavigate()
+  // const navegate = useNavigate()
 
   useEffect(() => {
     getProductsSelections()
@@ -48,7 +48,7 @@ export default function Cart() {
     e.preventDefault()
     insertHistorycart()
     deleteCart()
-    navegate('/')
+    // navegate('/')
   }
 
   const handleSubmitProductList = async (id, selected) => {
