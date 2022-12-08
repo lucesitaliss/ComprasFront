@@ -1,32 +1,35 @@
-import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { addCategorySelect } from '../../../features/category/categorySlice'
-import Swal from 'sweetalert2'
-import './categorySelect.css'
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addCategorySelect } from "../../../features/category/categorySlice";
+import { api } from "../../../api";
+import "./categorySelect.css";
 
 export function CategorySelect() {
-  const [categories, setCategories] = useState([])
-  const { categoryId } = useSelector((state) => state.categorySelect)
+  const [categories, setCategories] = useState([]);
+  const { categoryId } = useSelector((state) => state.categorySelect);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     if (e.target.value > 0) {
-      dispatch(addCategorySelect(Number(e.target.value)))
+      dispatch(addCategorySelect(Number(e.target.value)));
     }
-  }
+  };
 
   const getCategories = async () => {
     try {
-      const response = await fetch('http://www.localhost:4000/categories')
-      const result = await response.json()
-      setCategories(result)
+      const response = await fetch("http://www.localhost:4000/categories");
+      // const response = await fetch(`${api}/categories`);
+
+      const result = await response.json();
+      console.log(result);
+      setCategories(result);
     } catch (error) {}
-  }
+  };
 
   useEffect(() => {
-    getCategories()
-  }, [])
+    getCategories();
+  }, []);
 
   return (
     <div className="select">
@@ -39,5 +42,5 @@ export function CategorySelect() {
         ))}
       </select>
     </div>
-  )
+  );
 }
