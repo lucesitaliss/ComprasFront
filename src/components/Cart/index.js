@@ -6,7 +6,7 @@ import { getApiUrl } from "../../api";
 import "./cart.css";
 
 export default function Cart() {
-  const [productsSelect, setProductsSelect] = useState({});
+  const [selectProduct, setSelectProduct] = useState({});
   // const navegate = useNavigate()
 
   useEffect(() => {
@@ -19,7 +19,7 @@ export default function Cart() {
       const response = await fetch(urlApiCart);
       const result = await response.json();
       if (response.ok) {
-        setProductsSelect(result);
+        setSelectProduct(result);
       }
     } catch (error) {
       console.error(error);
@@ -44,7 +44,7 @@ export default function Cart() {
     });
 
     if (response.ok) {
-      setProductsSelect([]);
+      setSelectProduct([]);
     }
   };
 
@@ -131,12 +131,12 @@ export default function Cart() {
         </form>
       </div>
 
-      {Object.entries(productsSelect).map((categories) => (
+      {Object.entries(selectProduct).map((categories) => (
         <div className="containerList">
           <h3 className="titleCategory" key="categories.id_category">
-            {categories[0]}
+            {categories?.[0]}
           </h3>
-          {categories[1].map((product) => (
+          {categories?.[1].map((product) => (
             <div className="cartList" key={product.product_id}>
               <RiDeleteBin6Line
                 className="iconDeleteCart"
