@@ -9,7 +9,7 @@ export default function CleanChecked() {
       const resetChecked = await fetch(apiUrl, {
         method: "PUT",
       });
-      window.location.reload();
+      //window.location.reload();
     } catch (error) {
       console.error();
     }
