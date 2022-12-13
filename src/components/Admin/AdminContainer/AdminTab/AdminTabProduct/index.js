@@ -96,7 +96,7 @@ export default function AdminTabProduct() {
   };
 
   const editCategory = async (bodyEdit) => {
-    console.log(bodyEdit);
+    
     try {
       const urlApiInsertProduct = getApiUrl("product");
       const result = await fetch(urlApiInsertProduct, {

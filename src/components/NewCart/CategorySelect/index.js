@@ -16,12 +16,12 @@ export function CategorySelect() {
     }
   };
 
-  const getCategories = async () => { 
+  const getCategories = async () => {
     try {
       const apiUrl = getApiUrl("categories");
       const response = await fetch(apiUrl);
       const result = await response.json();
-      console.log(result);
+
       setCategories(result);
     } catch (error) {}
   };
@@ -31,9 +31,9 @@ export function CategorySelect() {
   }, []);
 
   return (
-    <div className="select">
+    <div className="selectContainer">
       <select onChange={handleChange} value={categoryId}>
-        <option value="">Seleccione una categoria</option>
+        <option value="">Select category</option>
         {categories.map((category) => (
           <option key={category.id_category} value={category.id_category}>
             {category.name_category}

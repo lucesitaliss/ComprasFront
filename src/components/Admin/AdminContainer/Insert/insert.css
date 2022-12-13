@@ -1,14 +1,10 @@
 .insertForm{
     display: flex;
-    padding: 5px;
-    padding-top: 15px;
-    
-  
+       padding-top: 15px;
 }
 
-.insertInput{
-   size: 10px;
-}
+/* .insertInput{
+}  */
 
 .sumit{
     padding: 5px;

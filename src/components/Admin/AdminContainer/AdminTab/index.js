@@ -6,7 +6,7 @@ import './adminTab.css'
 
 export default function AdminTab({ name }) {
   if (name === 'category') {
-    console.log(name)
+    
     return <AdminTabCategory />
   }
   if (name === 'product') {

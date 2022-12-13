@@ -1,17 +1,23 @@
-import { applyMiddleware } from "@reduxjs/toolkit";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { addProducts } from "../../../features/listProducts/listProductsSlice";
 //import { useNavigate } from 'react-router-dom'
 import "./productCheckbox.css";
 import { getApiUrl } from "../../../api";
 
 export default function ProductsCheckbox() {
+  const dispatch = useDispatch();
+  const [isChecked, setIsChecked] = useState([]);
   const { categoryId } = useSelector((state) => state.categorySelect);
-  const [products, setProducts] = useState([]);
+  const { products } = useSelector((state) => state.listProducts);
 
   useEffect(() => {
     categoryId && getProductsByCategory();
   }, [categoryId]);
+
+  useEffect(() => {
+    products && changeChecked();
+  }, [products]);
 
   // const navegate = useNavigate()
   const getProductsByCategory = async () => {
@@ -19,7 +25,8 @@ export default function ProductsCheckbox() {
       const apiUrl = getApiUrl(`products/category/${categoryId}`);
       const response = await fetch(apiUrl);
       const result = await response.json();
-      setProducts(result);
+      //setProducts(result);
+      dispatch(addProducts(result));
     }
   };
 
@@ -35,7 +42,7 @@ export default function ProductsCheckbox() {
   const handleChange = async (e) => {
     try {
       const apiUrl = getApiUrl(`product/checked/id/${e.target.id}`);
-      console.log("e.targetonchange", e.target);
+
       const oldValueChecked = await fetch(apiUrl);
       const objectchecked = await oldValueChecked.json();
       const checked = objectchecked.checked;
@@ -81,14 +88,56 @@ export default function ProductsCheckbox() {
     // navegate('/')
   };
 
+  const clean = async (e) => {
+    try {
+      const apiUrl = getApiUrl("products/checked/reset");
+      const resetChecked = await fetch(apiUrl, {
+        method: "PUT",
+      });
+
+      if (resetChecked.ok) {
+        const resetProducts = await resetChecked.json();
+        getProductsByCategory();
+      }
+    } catch (error) {
+      console.error();
+    }
+  };
+
+  const changeChecked = () => {
+    if (categoryId) {
+      const checked = products.filter((product) => product.checked === true);
+      setIsChecked(checked);
+    }
+    const checked = products.filter((product) => product.checked === true);
+    console.log(checked);
+    if (("checked", checked)) {
+      setIsChecked(checked);
+    }
+  };
   return (
     <form className="formProductCheckbox" onSubmit={handleSumit}>
-      <input
-        className={categoryId ? "sendButtonActive" : "sendButtonDesactive"}
-        type="submit"
-        value="Actualizar"
-        name="send"
-      />
+      <div className="buttonsContainers">
+        <input
+          className={
+            isChecked.length ? "sendButtonActive" : "sendButtonDesactive"
+          }
+          type="submit"
+          value="Actualizar"
+          name="send"
+        />
+
+        <button
+          className={
+            isChecked.length
+              ? "buttonClearCheckedActive"
+              : "buttonClearCheckedInactive"
+          }
+          onClick={clean}
+        >
+          Clear
+        </button>
+      </div>
 
       {products.map((product) => (
         <label className="productSelect" key={product.id_product}>
