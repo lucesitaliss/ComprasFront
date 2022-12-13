@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/comprasfront/static/css/main.2a7f068a.css",
-    "main.js": "/comprasfront/static/js/main.080462ec.js",
+    "main.css": "/comprasfront/static/css/main.3802642f.css",
+    "main.js": "/comprasfront/static/js/main.2d59db3b.js",
     "static/js/787.c4e7f8f9.chunk.js": "/comprasfront/static/js/787.c4e7f8f9.chunk.js",
     "index.html": "/comprasfront/index.html",
-    "main.2a7f068a.css.map": "/comprasfront/static/css/main.2a7f068a.css.map",
-    "main.080462ec.js.map": "/comprasfront/static/js/main.080462ec.js.map",
+    "main.3802642f.css.map": "/comprasfront/static/css/main.3802642f.css.map",
+    "main.2d59db3b.js.map": "/comprasfront/static/js/main.2d59db3b.js.map",
     "787.c4e7f8f9.chunk.js.map": "/comprasfront/static/js/787.c4e7f8f9.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.2a7f068a.css",
-    "static/js/main.080462ec.js"
+    "static/css/main.3802642f.css",
+    "static/js/main.2d59db3b.js"
   ]
 }
