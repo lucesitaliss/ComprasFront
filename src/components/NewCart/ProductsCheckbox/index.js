@@ -71,6 +71,7 @@ export default function ProductsCheckbox() {
       const selectProducts = allProducts.filter(
         (products) => products.checked === true
       );
+
       const apiUrlCart = getApiUrl("cart");
       const response = await fetch(apiUrlCart, {
         method: "POST",
