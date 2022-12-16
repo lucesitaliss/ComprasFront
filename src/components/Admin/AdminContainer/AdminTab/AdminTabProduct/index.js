@@ -42,14 +42,15 @@ export default function AdminTabProduct() {
         title: "Delete",
         text: `Are you sure you want to delete the pruduct ${nameProduct}?`,
         icon: "info",
-        buttons: ["Cancel", "Acept"],
+        showCancelButton: true,
       }).then((response) => {
-        if (response) {
-          // handleOnclikDeleteProduct(bodyDelete)
+        if (response.isConfirmed) {
           deleteProduct(bodyDelete);
           Swal.fire({
             text: " The category has been deleted successfully",
             icon: "success",
+            showConfirmButton: false,
+            timer: 1000,
           });
         }
       });
@@ -91,12 +92,13 @@ export default function AdminTabProduct() {
       await Swal.fire({
         text: "The product has been successfully modified",
         icon: "success",
+        showConfirmButton: false,
+        timer: 1000,
       });
     }
   };
 
   const editCategory = async (bodyEdit) => {
-    
     try {
       const urlApiInsertProduct = getApiUrl("product");
       const result = await fetch(urlApiInsertProduct, {

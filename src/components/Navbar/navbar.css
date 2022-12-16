@@ -2,35 +2,37 @@
 nav{
     display: flex;
     justify-content: space-around;
-    padding: 5px;
+    padding: 15px;
     background-color: rgb(58, 56, 56);
     max-height: 600px;
+    
 }
 
 .navNotSelected{
     display: flex;
     background-color: rgb(58, 56, 56);
-   
+    padding-inline: 15px;
+    padding-block: 5px;
 }
 
 .navSelected{
     display: flex;
-    background-color: rgb(233, 229, 229);
-    color: black;
-    
+    /* background-color: rgb(233, 229, 229); */
+    color: rgb(248, 247, 247);
+    pointer-events:none;
+    border-bottom: solid 2px rgb(246, 246, 248);
+    padding-inline: 15px;
+    padding-block: 5px;
 }
 
 .navNotSelected:hover{
     display: flex;
     background-color: rgb(233, 229, 229);
     color: black;
-   
-}
-
-.navSelected:hover{
-    display: flex;
-    background-color: rgb(58, 56, 56);
-    color: white;
+    padding-inline: 15px;
+    padding-block: 5px;
+    border-radius: 2px;
+    
 }
 
 a{

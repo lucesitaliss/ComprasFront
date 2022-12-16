@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { addCart } from "../../features/cart/cartSlice";
 import { RiDeleteBin6Line } from "react-icons/ri";
 // import { useNavigate } from 'react-router-dom'
 import Swal from "sweetalert2";
@@ -8,6 +10,7 @@ import "./cart.css";
 export default function Cart() {
   const [selectProduct, setSelectProduct] = useState({});
   // const navegate = useNavigate()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getProductsSelections();
@@ -20,6 +23,8 @@ export default function Cart() {
       const result = await response.json();
       if (response.ok) {
         setSelectProduct(result);
+        dispatch(addCart(result));
+        console.log("result", result);
       }
     } catch (error) {
       console.error(error);
@@ -98,13 +103,15 @@ export default function Cart() {
         title: "Delete",
         text: `Are you sure you want to delete the product ${nameCart} ?`,
         icon: "info",
-        buttons: ["cancel", "Acept"],
+        showCancelButton: true,
       }).then((response) => {
-        if (response) {
+        if (response.isConfirmed) {
           DeleteCartById(idCart, idProduct);
           Swal.fire({
             text: "The category has been deleted successfully",
             icon: "success",
+            showConfirmButton: false,
+            timer: 1000,
           });
         }
       });
@@ -119,16 +126,12 @@ export default function Cart() {
   };
 
   return (
-    <div>
-      <div className="titelButton">
-        <h2>Lista de Compras </h2>
-        <form onSubmit={handleSumitCleanList}>
-          <input
-            className="ButtonEmptyList"
-            type="submit"
-            value="Vaciar Lista"
-          />
-        </form>
+    <div className="cartContainer">
+      <div className="titelContainer">
+        <h2>List</h2>
+        <button className="ButtonEmptyList" onClick={handleSumitCleanList}>
+          Clear
+        </button>
       </div>
 
       {Object.entries(selectProduct).map((categories) => (
@@ -156,6 +159,7 @@ export default function Cart() {
                   product.selected ? "throughProductList" : "productList"
                 }
               >
+                {console.log(product.selected)}
                 {product.name_product}
               </h5>
             </div>

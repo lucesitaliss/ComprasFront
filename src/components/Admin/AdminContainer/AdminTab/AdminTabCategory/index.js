@@ -48,13 +48,15 @@ export default function AdminTabCategory() {
         title: "Delete",
         text: `Are you sure you want to delete the category ${categoryName}?`,
         icon: "info",
-        buttons: ["Cancel", "Acept"],
+        showCancelButton: true,
       }).then((response) => {
-        if (response) {
+        if (response.isConfirmed) {
           deleteCategorie(categoryId);
           Swal.fire({
             text: " The category has been deleted successfully",
             icon: "success",
+            showConfirmButton: false,
+            timer: 1000,
           });
         }
       });
@@ -95,12 +97,13 @@ export default function AdminTabCategory() {
           id,
           category: editedCategory,
         };
-        // handleOnClickEditCategory(bodyEditCategory)
         editCategory(bodyEditCategory);
 
         await Swal.fire({
           text: "The category has been successfully modified",
           icon: "success",
+          showConfirmButton: false,
+          timer: 1000,
         });
       }
     } catch (error) {

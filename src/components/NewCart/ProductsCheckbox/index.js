@@ -117,40 +117,34 @@ export default function ProductsCheckbox() {
     }
   };
   return (
-    <form className="formProductCheckbox" onSubmit={handleSumit}>
-      <div className="buttonsContainers">
-        <input
-          className={
-            isChecked.length ? "sendButtonActive" : "sendButtonDesactive"
-          }
-          type="submit"
-          value="Actualizar"
-          name="send"
-        />
-
-        <button
-          className={
-            isChecked.length
-              ? "buttonClearCheckedActive"
-              : "buttonClearCheckedInactive"
-          }
-          onClick={clean}
-        >
-          Clear
-        </button>
-      </div>
-
-      {products.map((product) => (
-        <label className="productSelect" key={product.id_product}>
+    <div className="element">
+      <form className="formProductCheckbox" onSubmit={handleSumit}>
+        <div className="buttonsContainers">
           <input
-            id={product.id_product}
-            type="checkbox"
-            onChange={handleChange}
-            checked={product.checked}
+            disabled={isChecked.length ? false : true}
+            type="submit"
+            value="Actualizar"
+            name="send"
           />
-          {product.name_product}
-        </label>
-      ))}
-    </form>
+
+          <button disabled={isChecked.length ? false : true} onClick={clean}>
+            Clear
+          </button>
+        </div>
+        <div className="checkboxContainer">
+          {products.map((product) => (
+            <label className="productSelect" key={product.id_product}>
+              <input
+                id={product.id_product}
+                type="checkbox"
+                onChange={handleChange}
+                checked={product.checked}
+              />
+              {product.name_product}
+            </label>
+          ))}
+        </div>
+      </form>
+    </div>
   );
 }

@@ -1,49 +1,32 @@
+
+element.style {
+    max-width: 10px;
+    margin: 0 auto;
+}
+
 .formProductCheckbox{
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    /* padding: 10px;  */
+  
 }
 
 .productSelect{
-display: flex;
-flex-direction: row;
-margin-left: 10px;
+padding: 8px;
+
 } 
-.sendButtonActive { 
-    /* width: 90px;
-    height: 30px; */
-    /* margin-left: 10px; */
-    /* margin-top: 5px; */
-    text-align: center;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', Verdana, sans-serif; 
-    
-}  
 
-.sendButtonDesactive{
-    opacity: 0.5;
-    cursor: not-allowed;
-    text-align: center;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', Verdana, sans-serif; 
-}
 
-.buttonClearCheckedActive{
-     /* width: 90px;
-    height: 30px; */
-    /* margin-left: 10px; */
-    /* margin-top: 5px; */
-    text-align: center;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', Verdana, sans-serif; 
-    
-    
-}
-
-.buttonClearCheckedInactive{
-    opacity: 0.5;
-    cursor: not-allowed;
-    text-align: center;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', Verdana, sans-serif; 
-}
 .buttonsContainers{
     margin: 5px;
+    text-align: center;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', Verdana, sans-serif; 
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    
+    }
+.checkboxContainer{
+   display: inline;
+   flex-wrap: wrap;
 }
