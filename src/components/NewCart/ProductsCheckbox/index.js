@@ -10,7 +10,7 @@ import { getApiUrl } from "../../../api";
 export default function ProductsCheckbox() {
   const dispatch = useDispatch();
   const [isChecked, setIsChecked] = useState([]);
-  const [isLoading, setisLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { categoryId } = useSelector((state) => state.categorySelect);
   const { products } = useSelector((state) => state.listProducts);
 
@@ -57,18 +57,17 @@ export default function ProductsCheckbox() {
         valueChecked: invertChecked(checked),
         idProduct: e.target.id,
       };
+      setIsLoading(true);
       const apiUrlChecked = getApiUrl("product/checked");
-      setisLoading(true);
       const updateChecked = await fetch(apiUrlChecked, {
         method: "PUT",
         body: JSON.stringify(dataBody),
         headers: { "content-type": "application/json" },
       });
-
-      const updatedChecked = updateChecked.json();
-      if (updatedChecked.finally) {
-        getProductsByCategory();
-        setisLoading(false);
+      const updatedCheckedP = await updateChecked.json();
+      getProductsByCategory();
+      if (updatedCheckedP.finally) {
+        setIsLoading(false);
       }
     } catch (error) {
       console.error(error);
@@ -153,8 +152,10 @@ export default function ProductsCheckbox() {
                   checked={product.checked}
                   onClick={(e) => {
                     const checkbox = e.target;
+                    console.log(isLoading);
                     if (isLoading) {
-                      checkbox.className = "animate__animated animate__flash";
+                      checkbox.className =
+                        "animate__animated animate__rubberBand";
                     }
                   }}
                 />
