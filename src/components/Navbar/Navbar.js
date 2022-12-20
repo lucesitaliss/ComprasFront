@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./navbar.css";
+
 import { useSelector } from "react-redux";
 
 export default function Navbar() {
@@ -27,7 +28,8 @@ export default function Navbar() {
     <nav>
       {Object.entries(adminNav).map(([navName, nav]) => {
         const isCurrent = current === nav.id;
-        const isNewCart = nav.id === 2;
+        const isId2 = nav.id === 2;
+        const isCart = Object.entries(cart).some((cart) => cart);
         return (
           <NavLink
             key={nav.id}
@@ -35,8 +37,7 @@ export default function Navbar() {
             onClick={() => handleOnClick(nav.id)}
             className={isCurrent ? "navSelected" : "navNotSelected"}
           >
-            {/* {isNewCart && cart ? "Update" : nav.title} */}
-            {nav.title}
+            {isCart && isId2 ? "Update" : nav.title}
           </NavLink>
         );
       })}

@@ -23,20 +23,7 @@ export default function Cart() {
       const result = await response.json();
       if (response.ok) {
         setSelectProduct(result);
-        dispatch(addCart(result));
-        console.log("result", result);
       }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const insertHistorycart = async () => {
-    try {
-      const urlApiHistory = getApiUrl("history");
-      const response = await fetch(urlApiHistory, {
-        method: "POST",
-      });
     } catch (error) {
       console.error(error);
     }
@@ -50,13 +37,15 @@ export default function Cart() {
 
     if (response.ok) {
       setSelectProduct([]);
+      dispatch(addCart(""));
     }
   };
 
   const handleSumitCleanList = (e) => {
     e.preventDefault();
-    insertHistorycart();
+    // insertHistorycart();
     deleteCart();
+
     // navegate('/')
   };
 
@@ -159,7 +148,6 @@ export default function Cart() {
                   product.selected ? "throughProductList" : "productList"
                 }
               >
-                {console.log(product.selected)}
                 {product.name_product}
               </h5>
             </div>

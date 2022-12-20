@@ -30,3 +30,30 @@ padding: 8px;
    display: inline;
    flex-wrap: wrap;
 }
+/* .animated {
+    -webkit-animation-duration:2s;
+    animation-duration: 2s;
+    
+    animation-fill-mode: both;
+   }
+   @-webkit-keyframes flash {
+    0%, 50%, 100% {
+    opacity: 1;
+    }
+   25%, 75% {
+    opacity: 0;
+    }
+   }
+   @keyframes flash {
+    0%, 50%, 100% {
+    opacity: 1;
+    }
+   25%, 75% {
+    opacity: 0;
+    }
+   }
+   .flash {
+    -webkit-animation-name:flash;
+    animation-name: flash;
+   } */
+    

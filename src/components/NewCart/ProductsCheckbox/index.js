@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addProducts } from "../../../features/listProducts/listProductsSlice";
+import { addCart } from "../../../features/cart/cartSlice";
 //import { useNavigate } from 'react-router-dom'
 import "./productCheckbox.css";
+import "animate.css";
 import { getApiUrl } from "../../../api";
 
 export default function ProductsCheckbox() {
   const dispatch = useDispatch();
   const [isChecked, setIsChecked] = useState([]);
+  const [isLoading, setisLoading] = useState(false);
   const { categoryId } = useSelector((state) => state.categorySelect);
   const { products } = useSelector((state) => state.listProducts);
 
@@ -20,12 +23,15 @@ export default function ProductsCheckbox() {
   }, [products]);
 
   // const navegate = useNavigate()
+  // const toggleClass = () => {
+  //   setIsActive(!isActive);
+  // };
+
   const getProductsByCategory = async () => {
     if (categoryId > 0) {
       const apiUrl = getApiUrl(`products/category/${categoryId}`);
       const response = await fetch(apiUrl);
       const result = await response.json();
-      //setProducts(result);
       dispatch(addProducts(result));
     }
   };
@@ -52,12 +58,18 @@ export default function ProductsCheckbox() {
         idProduct: e.target.id,
       };
       const apiUrlChecked = getApiUrl("product/checked");
+      setisLoading(true);
       const updateChecked = await fetch(apiUrlChecked, {
         method: "PUT",
         body: JSON.stringify(dataBody),
         headers: { "content-type": "application/json" },
       });
-      getProductsByCategory();
+
+      const updatedChecked = updateChecked.json();
+      if (updatedChecked.finally) {
+        getProductsByCategory();
+        setisLoading(false);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -67,17 +79,21 @@ export default function ProductsCheckbox() {
     try {
       const apiUrlProducts = getApiUrl("products");
       const getProducts = await fetch(apiUrlProducts);
-      const allProducts = await getProducts.json();
-      const selectProducts = allProducts.filter(
-        (products) => products.checked === true
-      );
-
-      const apiUrlCart = getApiUrl("cart");
-      const response = await fetch(apiUrlCart, {
-        method: "POST",
-        body: JSON.stringify(selectProducts),
-        headers: { "content-type": "application/json" },
-      });
+      if (getProducts.ok) {
+        const allProducts = await getProducts.json();
+        const selectProducts = allProducts.filter(
+          (products) => products.checked === true
+        );
+        const apiUrlCart = getApiUrl("cart");
+        const response = await fetch(apiUrlCart, {
+          method: "POST",
+          body: JSON.stringify(selectProducts),
+          headers: { "content-type": "application/json" },
+        });
+        const postCart = await response.json();
+        console.log("postCart", postCart);
+        dispatch(addCart(postCart));
+      }
     } catch (error) {
       console.error(error);
     }
@@ -110,11 +126,6 @@ export default function ProductsCheckbox() {
       const checked = products.filter((product) => product.checked === true);
       setIsChecked(checked);
     }
-    const checked = products.filter((product) => product.checked === true);
-    console.log(checked);
-    if (("checked", checked)) {
-      setIsChecked(checked);
-    }
   };
   return (
     <div className="element">
@@ -132,17 +143,25 @@ export default function ProductsCheckbox() {
           </button>
         </div>
         <div className="checkboxContainer">
-          {products.map((product) => (
-            <label className="productSelect" key={product.id_product}>
-              <input
-                id={product.id_product}
-                type="checkbox"
-                onChange={handleChange}
-                checked={product.checked}
-              />
-              {product.name_product}
-            </label>
-          ))}
+          {products.map((product) => {
+            return (
+              <label className="productSelect" key={product.id_product}>
+                <input
+                  id={product.id_product}
+                  type="checkbox"
+                  onChange={handleChange}
+                  checked={product.checked}
+                  onClick={(e) => {
+                    const checkbox = e.target;
+                    if (isLoading) {
+                      checkbox.className = "animate__animated animate__flash";
+                    }
+                  }}
+                />
+                {product.name_product}
+              </label>
+            );
+          })}
         </div>
       </form>
     </div>
