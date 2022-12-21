@@ -8,13 +8,13 @@ element.style {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-  
+    column-gap: 10px;
 }
 
-.productSelect{
-padding: 8px;
-
-} 
+.productSelect {
+    padding: 2px 8px;
+    width: fit-content;
+}
 
 
 .buttonsContainers{
@@ -26,34 +26,7 @@ padding: 8px;
     gap: 6px;
     
     }
-.checkboxContainer{
-   display: inline;
-   flex-wrap: wrap;
-}
-/* .animated {
-    -webkit-animation-duration:2s;
-    animation-duration: 2s;
-    
-    animation-fill-mode: both;
-   }
-   @-webkit-keyframes flash {
-    0%, 50%, 100% {
-    opacity: 1;
+    .checkboxContainer {
+        display: flex;
+        flex-direction: column;
     }
-   25%, 75% {
-    opacity: 0;
-    }
-   }
-   @keyframes flash {
-    0%, 50%, 100% {
-    opacity: 1;
-    }
-   25%, 75% {
-    opacity: 0;
-    }
-   }
-   .flash {
-    -webkit-animation-name:flash;
-    animation-name: flash;
-   } */
-    

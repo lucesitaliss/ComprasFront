@@ -10,7 +10,7 @@ import { getApiUrl } from "../../../api";
 export default function ProductsCheckbox() {
   const dispatch = useDispatch();
   const [isChecked, setIsChecked] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [loadingListItems, setLoadingListItems] = useState({});
   const { categoryId } = useSelector((state) => state.categorySelect);
   const { products } = useSelector((state) => state.listProducts);
 
@@ -23,9 +23,6 @@ export default function ProductsCheckbox() {
   }, [products]);
 
   // const navegate = useNavigate()
-  // const toggleClass = () => {
-  //   setIsActive(!isActive);
-  // };
 
   const getProductsByCategory = async () => {
     if (categoryId > 0) {
@@ -48,26 +45,27 @@ export default function ProductsCheckbox() {
   const handleChange = async (e) => {
     try {
       const apiUrl = getApiUrl(`product/checked/id/${e.target.id}`);
-
       const oldValueChecked = await fetch(apiUrl);
       const objectchecked = await oldValueChecked.json();
       const checked = objectchecked.checked;
-
       const dataBody = {
         valueChecked: invertChecked(checked),
         idProduct: e.target.id,
       };
-      setIsLoading(true);
+
       const apiUrlChecked = getApiUrl("product/checked");
       const updateChecked = await fetch(apiUrlChecked, {
         method: "PUT",
         body: JSON.stringify(dataBody),
         headers: { "content-type": "application/json" },
       });
+      const currentProduct = { [e.target.id]: true };
+
+      setLoadingListItems(...[currentProduct]);
       const updatedCheckedP = await updateChecked.json();
       getProductsByCategory();
       if (updatedCheckedP.finally) {
-        setIsLoading(false);
+        setLoadingListItems((e.target.id = false));
       }
     } catch (error) {
       console.error(error);
@@ -150,14 +148,11 @@ export default function ProductsCheckbox() {
                   type="checkbox"
                   onChange={handleChange}
                   checked={product.checked}
-                  onClick={(e) => {
-                    const checkbox = e.target;
-                    console.log(isLoading);
-                    if (isLoading) {
-                      checkbox.className =
-                        "animate__animated animate__rubberBand";
-                    }
-                  }}
+                  className={
+                    loadingListItems[product.id_product]
+                      ? "animate__animated animate__rubberBand"
+                      : "prueba"
+                  }
                 />
                 {product.name_product}
               </label>
