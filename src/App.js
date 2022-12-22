@@ -18,6 +18,10 @@ export default function App() {
         <Route path="/newcart">
           <NewCart />
         </Route>
+        <Route path="/update">
+          <NewCart />
+        </Route>
+
         <Route path="/admin">
           <Admin />
         </Route>

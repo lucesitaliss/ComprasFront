@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://lucesitaliss.github.io/comprasfront",
+  "homepage": "https://lucesitaliss.github.io/comprasfront/predeploy",
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.5",
     "@testing-library/jest-dom": "^5.16.5",
@@ -23,7 +23,7 @@
   },
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+   
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
