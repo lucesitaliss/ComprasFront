@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/comprasfront/static/css/main.3e182bc1.css",
-    "main.js": "/comprasfront/static/js/main.cbcc5f53.js",
-    "static/js/787.c4e7f8f9.chunk.js": "/comprasfront/static/js/787.c4e7f8f9.chunk.js",
-    "index.html": "/comprasfront/index.html",
-    "main.3e182bc1.css.map": "/comprasfront/static/css/main.3e182bc1.css.map",
-    "main.cbcc5f53.js.map": "/comprasfront/static/js/main.cbcc5f53.js.map",
-    "787.c4e7f8f9.chunk.js.map": "/comprasfront/static/js/787.c4e7f8f9.chunk.js.map"
+    "main.css": "/comprasfront/predeploy/static/css/main.3e182bc1.css",
+    "main.js": "/comprasfront/predeploy/static/js/main.cd74fe1a.js",
+    "static/js/787.c4e7f8f9.chunk.js": "/comprasfront/predeploy/static/js/787.c4e7f8f9.chunk.js",
+    "index.html": "/comprasfront/predeploy/index.html",
+    "main.3e182bc1.css.map": "/comprasfront/predeploy/static/css/main.3e182bc1.css.map",
+    "main.cd74fe1a.js.map": "/comprasfront/predeploy/static/js/main.cd74fe1a.js.map",
+    "787.c4e7f8f9.chunk.js.map": "/comprasfront/predeploy/static/js/787.c4e7f8f9.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.3e182bc1.css",
-    "static/js/main.cbcc5f53.js"
+    "static/js/main.cd74fe1a.js"
   ]
 }
