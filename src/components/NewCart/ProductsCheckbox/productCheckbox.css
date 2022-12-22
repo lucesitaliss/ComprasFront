@@ -1,6 +1,6 @@
 
-element.style {
-    max-width: 10px;
+.container.style {
+    max-width: 0px;
     margin: 0 auto;
 }
 
@@ -26,6 +26,7 @@ element.style {
     gap: 6px;
     
     }
+ 
     .checkboxContainer {
         display: flex;
         flex-direction: column;

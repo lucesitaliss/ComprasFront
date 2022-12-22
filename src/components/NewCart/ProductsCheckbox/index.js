@@ -125,7 +125,7 @@ export default function ProductsCheckbox() {
     }
   };
   return (
-    <div className="element">
+    <div className="container">
       <form className="formProductCheckbox" onSubmit={handleSumit}>
         <div className="buttonsContainers">
           <input
