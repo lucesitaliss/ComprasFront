@@ -11,6 +11,7 @@ export default function ProductsCheckbox() {
   const dispatch = useDispatch();
   const [isChecked, setIsChecked] = useState([]);
   const [loadingListItems, setLoadingListItems] = useState({});
+  const [loadingProducts, setLoadingProducts] = useState("");
   const { categoryId } = useSelector((state) => state.categorySelect);
   const { products } = useSelector((state) => state.listProducts);
 
@@ -25,33 +26,32 @@ export default function ProductsCheckbox() {
   // const navegate = useNavigate()
 
   const getProductsByCategory = async () => {
-    if (categoryId > 0) {
-      const apiUrl = getApiUrl(`products/category/${categoryId}`);
-      const response = await fetch(apiUrl);
-      const result = await response.json();
-      dispatch(addProducts(result));
+    try {
+      if (categoryId > 0) {
+        const apiUrl = getApiUrl(`products/category/${categoryId}`);
+        setLoadingProducts(true);
+        const response = await fetch(apiUrl);
+        const result = await response.json();
+        dispatch(addProducts(result));
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoadingProducts(false);
     }
-  };
-
-  const invertChecked = (checked) => {
-    if (checked) {
-      checked = false;
-      return checked;
-    }
-    checked = true;
-    return checked;
   };
 
   const handleChange = async (e) => {
     try {
-      const apiUrl = getApiUrl(`product/checked/id/${e.target.id}`);
-      const oldValueChecked = await fetch(apiUrl);
-      const objectchecked = await oldValueChecked.json();
-      const checked = objectchecked.checked;
       const dataBody = {
-        valueChecked: invertChecked(checked),
+        valueChecked: e.target.checked,
         idProduct: e.target.id,
       };
+
+      setLoadingListItems((prev) => ({
+        ...prev,
+        [e.target.id]: true,
+      }));
 
       const apiUrlChecked = getApiUrl("product/checked");
       const updateChecked = await fetch(apiUrlChecked, {
@@ -59,16 +59,26 @@ export default function ProductsCheckbox() {
         body: JSON.stringify(dataBody),
         headers: { "content-type": "application/json" },
       });
-      const currentProduct = { [e.target.id]: true };
 
-      setLoadingListItems(...[currentProduct]);
-      const updatedCheckedP = await updateChecked.json();
-      getProductsByCategory();
-      if (updatedCheckedP.finally) {
-        setLoadingListItems((e.target.id = false));
+      const updateProduct = await updateChecked.json();
+      console.log(updateProduct);
+
+      if (updateChecked.ok) {
+        const updateProducts = products.map((product) => {
+          if (product.id_product === updateProduct[0].id_product) {
+            return (product = updateProduct[0]);
+          }
+          return product;
+        });
+        dispatch(addProducts(updateProducts));
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoadingListItems((prev) => ({
+        ...prev,
+        [e.target.id]: false,
+      }));
     }
   };
 
@@ -88,7 +98,6 @@ export default function ProductsCheckbox() {
           headers: { "content-type": "application/json" },
         });
         const postCart = await response.json();
-        console.log("postCart", postCart);
         dispatch(addCart(postCart));
       }
     } catch (error) {
@@ -114,7 +123,7 @@ export default function ProductsCheckbox() {
         getProductsByCategory();
       }
     } catch (error) {
-      console.error();
+      console.error(error);
     }
   };
 
@@ -124,41 +133,48 @@ export default function ProductsCheckbox() {
       setIsChecked(checked);
     }
   };
+
   return (
     <div className="container">
       <form className="formProductCheckbox" onSubmit={handleSumit}>
         <div className="buttonsContainers">
           <input
-            disabled={isChecked.length ? false : true}
+            disabled={!isChecked.length}
             type="submit"
             value="Actualizar"
             name="send"
           />
 
-          <button disabled={isChecked.length ? false : true} onClick={clean}>
+          <button disabled={!isChecked.length} onClick={clean}>
             Clear
           </button>
         </div>
-        <div className="checkboxContainer">
-          {products.map((product) => {
-            return (
-              <label className="productSelect" key={product.id_product}>
-                <input
-                  id={product.id_product}
-                  type="checkbox"
-                  onChange={handleChange}
-                  checked={product.checked}
-                  className={
-                    loadingListItems[product.id_product]
-                      ? "animate__animated animate__rubberBand"
-                      : "prueba"
-                  }
-                />
-                {product.name_product}
-              </label>
-            );
-          })}
-        </div>
+
+        {loadingProducts ? (
+          <div className="containerSpinner">
+            <div className="spinner"></div>
+          </div>
+        ) : (
+          <div className="checkboxContainer">
+            {products.map((product) => {
+              return (
+                <label className="productSelect" key={product.id_product}>
+                  <input
+                    id={product.id_product}
+                    type="checkbox"
+                    onChange={handleChange}
+                    checked={product.checked}
+                    className={
+                      loadingListItems[product.id_product] ? "checkboxSpin" : ""
+                    }
+                  />
+
+                  {product.name_product}
+                </label>
+              );
+            })}
+          </div>
+        )}
       </form>
     </div>
   );

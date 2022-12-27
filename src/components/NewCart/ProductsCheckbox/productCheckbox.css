@@ -31,3 +31,50 @@
         display: flex;
         flex-direction: column;
     }
+
+    .checkboxSpin {
+        /* width: 100px;
+        height: 100px; */
+        /* background-color: #0CB1C4; */
+        animation-name: spin;
+        animation-duration:1500ms;
+        animation-iteration-count:infinite;;
+        animation-timing-function: linear; 
+        /* transform: rotate(3deg); */
+         /* transform: rotate(0.3rad);/ */
+         /* transform: rotate(3grad); */ 
+         /* transform: rotate(.03turn);  */
+      }
+      
+      @keyframes spin {
+          from {
+              transform:rotate(0deg);
+          }
+          to {
+              transform:rotate(360deg);
+          }
+      }
+      .containerSpinner{
+        width: 100%;
+        height: calc( 100vh - 31px + 35px + 59px);
+        /* height: 100vh; */
+        position: relative; 
+        /* background-color: #e930304a; */
+        /* z-index: 9999;   */
+      }
+
+    .spinner{
+        border: 4px solid rgba(0, 0, 0, 0.1);
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border-left-color: rgb(10, 10, 10);
+        animation:spin 1s linear infinite;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        margin: auto;
+      }
+    
