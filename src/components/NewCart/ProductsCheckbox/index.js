@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addProducts } from "../../../features/listProducts/listProductsSlice";
+import { changeCheckedAccion } from "../../../features/listProducts/listProductsSlice";
 import { addCart } from "../../../features/cart/cartSlice";
 //import { useNavigate } from 'react-router-dom'
 import "./productCheckbox.css";
@@ -61,16 +62,15 @@ export default function ProductsCheckbox() {
       });
 
       const updateProduct = await updateChecked.json();
-      console.log(updateProduct);
 
       if (updateChecked.ok) {
-        const updateProducts = products.map((product) => {
-          if (product.id_product === updateProduct[0].id_product) {
-            return (product = updateProduct[0]);
-          }
-          return product;
-        });
-        dispatch(addProducts(updateProducts));
+        // const updateProducts = products.map((product) => {
+        //   if (product.id_product === updateProduct[0].id_product) {
+        //     return (product = updateProduct[0]);
+        //   }
+        //   return product;
+        // });
+        dispatch(changeCheckedAccion(updateProduct[0]));
       }
     } catch (error) {
       console.error(error);
