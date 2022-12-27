@@ -23,6 +23,7 @@ export default function Cart() {
       const result = await response.json();
       if (response.ok) {
         setSelectProduct(result);
+        dispatch(addCart(result));
       }
     } catch (error) {
       console.error(error);

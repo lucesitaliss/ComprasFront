@@ -17,12 +17,6 @@ export default function Navbar() {
   const handleOnClick = (id) => {
     setCurrent(id);
   };
-  const condicionalNameNav = (title) => {
-    if (cart) {
-      return "Update";
-    }
-    return title;
-  };
 
   return (
     <nav>

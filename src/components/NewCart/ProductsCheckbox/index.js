@@ -64,12 +64,7 @@ export default function ProductsCheckbox() {
       const updateProduct = await updateChecked.json();
 
       if (updateChecked.ok) {
-        // const updateProducts = products.map((product) => {
-        //   if (product.id_product === updateProduct[0].id_product) {
-        //     return (product = updateProduct[0]);
-        //   }
-        //   return product;
-        // });
+        
         dispatch(changeCheckedAccion(updateProduct[0]));
       }
     } catch (error) {
