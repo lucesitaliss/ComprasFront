@@ -9,9 +9,10 @@ export default function Navbar() {
   const { cart } = useSelector((state) => state.cart);
 
   const adminNav = {
-    cart: { id: 1, name: "cart", title: "Cart", to: "/" },
-    newCart: { id: 2, name: "newcart", title: "New Cart", to: "/newcart" },
-    admin: { id: 3, name: "admin", title: "Admin", to: "/admin" },
+    login: { id: 1, name: "login", title: "Login", to: "/" },
+    cart: { id: 2, name: "cart", title: "Cart", to: "/cart" },
+    newCart: { id: 3, name: "newcart", title: "New Cart", to: "/newcart" },
+    admin: { id: 4, name: "admin", title: "Admin", to: "/admin" },
   };
 
   const handleOnClick = (id) => {
@@ -22,7 +23,7 @@ export default function Navbar() {
     <nav>
       {Object.entries(adminNav).map(([navName, nav]) => {
         const isCurrent = current === nav.id;
-        const isId2 = nav.id === 2;
+        const isId2 = nav.id === 3;
         const isCart = Object.entries(cart).some((cart) => cart);
         return (
           <NavLink

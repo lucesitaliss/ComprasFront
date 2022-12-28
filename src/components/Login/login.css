@@ -1,0 +1,26 @@
+
+.loginForm{
+display: grid;
+place-items: center;
+margin-top: 100px;
+gap: 12px; 
+border: 5px;
+width:auto;
+
+} 
+
+.accepButton{
+  background: -webkit-linear-gradient(right, #ccd3c9, #5e7267);
+    border: none;
+    border-radius: 21px;
+    box-shadow: 0px 1px 8px #373a38;
+    cursor: pointer;
+    color: rgb(15, 1, 1);
+    font-family: "Raleway SemiBold", sans-serif;
+    font-size: larger;
+    height: 37.8px;
+    margin: 0 auto;
+    margin-top: 10px;
+    transition: 0.25s;
+    width: 150px;
+}
