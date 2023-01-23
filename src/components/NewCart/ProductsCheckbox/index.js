@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { addProducts } from "../../../features/listProducts/listProductsSlice";
 import { changeCheckedAccion } from "../../../features/listProducts/listProductsSlice";
 import { addCart } from "../../../features/cart/cartSlice";
-//import { useNavigate } from 'react-router-dom'
+import { Redirect } from "react-router-dom";
 import "./productCheckbox.css";
 import "animate.css";
 import { getApiUrl } from "../../../api";
@@ -15,6 +15,7 @@ export default function ProductsCheckbox() {
   const [loadingProducts, setLoadingProducts] = useState("");
   const { categoryId } = useSelector((state) => state.categorySelect);
   const { products } = useSelector((state) => state.listProducts);
+  const [shouldRedirect, setShouldRedirect] = useState(false);
 
   useEffect(() => {
     categoryId && getProductsByCategory();
@@ -64,7 +65,6 @@ export default function ProductsCheckbox() {
       const updateProduct = await updateChecked.json();
 
       if (updateChecked.ok) {
-        
         dispatch(changeCheckedAccion(updateProduct[0]));
       }
     } catch (error) {
@@ -93,7 +93,10 @@ export default function ProductsCheckbox() {
           headers: { "content-type": "application/json" },
         });
         const postCart = await response.json();
-        dispatch(addCart(postCart));
+        if (response.ok) {
+          dispatch(addCart(postCart));
+          setShouldRedirect(true);
+        }
       }
     } catch (error) {
       console.error(error);
@@ -128,6 +131,10 @@ export default function ProductsCheckbox() {
       setIsChecked(checked);
     }
   };
+
+  if (shouldRedirect) {
+    return <Redirect to="/Cart" />;
+  }
 
   return (
     <div className="container">

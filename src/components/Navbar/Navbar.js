@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import "./navbar.css";
 
 import { useSelector } from "react-redux";
 
-export default function Navbar() {
+export default function Navbar(props) {
+  console.log(props);
   const [current, setCurrent] = useState(0);
   const { cart } = useSelector((state) => state.cart);
 
