@@ -35,8 +35,8 @@ export function CategorySelect() {
       <select onChange={handleChange} value={categoryId}>
         <option value="">Select category</option>
         {categories.map((category) => (
-          <option key={category.id_category} value={category.id_category}>
-            {category.name_category}
+          <option key={category.category_id} value={category.category_id}>
+            {category.category_name}
           </option>
         ))}
       </select>

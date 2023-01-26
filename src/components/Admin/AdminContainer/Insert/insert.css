@@ -1,6 +1,8 @@
 .insertForm{
     display: flex;
-       padding-top: 15px;
+    padding-top: 15px;
+    gap: 5px;
+
 }
 
 /* .insertInput{

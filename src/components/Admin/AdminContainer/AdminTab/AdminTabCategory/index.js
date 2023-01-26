@@ -33,7 +33,7 @@ export default function AdminTabCategory() {
   const deleteCategorie = async (idCategory) => {
     try {
       const urlApiDeleteCategory = getApiUrl(`category/delete/${idCategory}`);
-      const result = await fetch(urlApiDeleteCategory, {
+      await fetch(urlApiDeleteCategory, {
         method: "PUT",
       });
       allCategories();
@@ -74,11 +74,11 @@ export default function AdminTabCategory() {
         headers: { "content-type": "application/json" },
       });
       if (result.ok) {
-        const editCategory = await result.json();
+        await result.json();
         allCategories();
       }
     } catch (error) {
-      console.error(error);
+      
     }
   };
 
@@ -115,13 +115,13 @@ export default function AdminTabCategory() {
     <div>
       <Insert name="category" />
       {categories.map((category) => (
-        <div className="listCategories" key={category.id_category}>
+        <div className="listCategories" key={category.category_id}>
           <BiEditAlt
             className="iconEdit"
             onClick={() => {
               handleOnClickEditCategory(
-                category.name_category,
-                category.id_category
+                category.category_name,
+                category.category_id
               );
             }}
           />
@@ -129,12 +129,12 @@ export default function AdminTabCategory() {
             className="iconDelete"
             onClick={() => {
               handleOnCLickDeleteCategorie(
-                category.id_category,
-                category.name_category
+                category.category_id,
+                category.category_name
               );
             }}
           />
-          {category.name_category}
+          {category.category_name}
         </div>
       ))}
     </div>

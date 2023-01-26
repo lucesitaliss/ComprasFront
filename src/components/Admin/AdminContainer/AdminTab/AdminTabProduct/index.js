@@ -121,23 +121,23 @@ export default function AdminTabProduct() {
         <Insert className="insert" name="product" />
       </div>
       {products.map((product) => (
-        <div className="listProducts" key={product.id_product}>
+        <div className="listProducts" key={product.product_id}>
           <BiEditAlt
             className="iconEditProduct"
             onClick={() => {
-              handleOnClickEdit(product.name_product, product.id_product);
+              handleOnClickEdit(product.product_name, product.product_id);
             }}
           />
           <RiDeleteBin6Line
             className="iconDeleteProduct"
             onClick={() => {
               handleOnclikDeleteProduct(
-                product.id_product,
-                product.name_product
+                product.product_id,
+                product.product_name
               );
             }}
           />
-          {product.name_product}
+          {product.product_name}
         </div>
       ))}
     </div>

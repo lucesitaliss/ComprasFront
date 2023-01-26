@@ -16,7 +16,7 @@ export const listProductsSlice = createSlice({
     },
     changeCheckedAccion: (state, action) => {
       state.products.map((product) => {
-        if (product.id_product === action.payload.id_product) {
+        if (product.product_id === action.payload.product_id) {
           product.checked = action.payload.checked;
         }
         return product;

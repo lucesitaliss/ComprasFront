@@ -46,8 +46,8 @@ export default function ProductsCheckbox() {
   const handleChange = async (e) => {
     try {
       const dataBody = {
-        valueChecked: e.target.checked,
-        idProduct: e.target.id,
+        checkedValue: e.target.checked,
+        productId: e.target.id,
       };
 
       setLoadingListItems((prev) => ({
@@ -160,18 +160,18 @@ export default function ProductsCheckbox() {
           <div className="checkboxContainer">
             {products.map((product) => {
               return (
-                <label className="productSelect" key={product.id_product}>
+                <label className="productSelect" key={product.product_id}>
                   <input
-                    id={product.id_product}
+                    id={product.product_id}
                     type="checkbox"
                     onChange={handleChange}
                     checked={product.checked}
                     className={
-                      loadingListItems[product.id_product] ? "checkboxSpin" : ""
+                      loadingListItems[product.product_id] ? "checkboxSpin" : ""
                     }
                   />
 
-                  {product.name_product}
+                  {product.product_name}
                 </label>
               );
             })}

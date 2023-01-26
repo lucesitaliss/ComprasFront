@@ -126,7 +126,7 @@ export default function Cart() {
 
       {Object.entries(selectProduct).map((categories) => (
         <div className="containerList">
-          <h3 className="titleCategory" key="categories.id_category">
+          <h3 className="titleCategory" key="categories.category_id">
             {categories?.[0]}
           </h3>
           {categories?.[1].map((product) => (
@@ -135,21 +135,21 @@ export default function Cart() {
                 className="iconDeleteCart"
                 onClick={() => {
                   handleSubmitDeleteCartById(
-                    product.name_product,
-                    product.id_cart,
+                    product.product_name,
+                    product.cart_id,
                     product.product_id
                   );
                 }}
               />
               <h5
                 onClick={() => {
-                  handleSubmitProductList(product.id_cart, product.selected);
+                  handleSubmitProductList(product.cart_id, product.selected);
                 }}
                 className={
                   product.selected ? "throughProductList" : "productList"
                 }
               >
-                {product.name_product}
+                {product.product_name}
               </h5>
             </div>
           ))}
