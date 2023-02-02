@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import "./login.css";
 import { getApiUrl } from "../../api";
-import { Redirect } from "react-router-dom";
+// import { Redirect } from "react-router-dom";
 
 export default function Login() {
   const [dataLogin, setDataLogin] = useState({
     name: "",
     password: "",
   });
-  const [shouldRedirect, setShouldRedirect] = useState(false);
+  // const [shouldRedirect, setShouldRedirect] = useState(false);
 
   const handlechange = (event) => {
     const { name, value } = event.target;
@@ -17,19 +17,20 @@ export default function Login() {
 
   const handleSumit = async (event) => {
     event.preventDefault();
+    localStorage.clear();
     const urlLoging = getApiUrl("login");
-    const login = await fetch(urlLoging, {
+    const response = await fetch(urlLoging, {
       method: "POST",
       body: JSON.stringify(dataLogin),
       headers: { "content-type": "application/json" },
     });
-    if (login.redirected) {
-      setShouldRedirect(true);
-    }
+    const token = await response.json();
+
+    localStorage.setItem("token", token);
   };
-  if (shouldRedirect) {
-    return <Redirect to="/Cart" />;
-  }
+  // if (shouldRedirect) {
+  //   return <Redirect to="/Cart" />;
+  // }
   return (
     <form className="loginForm" onSubmit={handleSumit}>
       <input placeholder="Enter the user" name="name" onChange={handlechange} />

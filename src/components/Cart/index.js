@@ -18,8 +18,13 @@ export default function Cart() {
 
   const getProductsSelections = async () => {
     try {
+      const token = localStorage.getItem("token");
+      console.log("token", token);
+
       const urlApiCart = getApiUrl("cart");
-      const response = await fetch(urlApiCart);
+      const response = await fetch(urlApiCart, {
+        headers: { "x-acces-token": token },
+      });
       const result = await response.json();
       if (response.ok) {
         setSelectProduct(result);
