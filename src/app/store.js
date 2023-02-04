@@ -3,6 +3,7 @@ import categoryReducer from "../features/category/categorySlice";
 import listCategorySlice from "../features/listCategory/listCategorySlice";
 import listProductsSlice from "../features/listProducts/listProductsSlice";
 import cartSlice from "../features/cart/cartSlice";
+import tokenLocalStoreSlice from "../features/tokenLocalStoreSlice/tokenLocalStoreSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,5 +11,6 @@ export const store = configureStore({
     listCategory: listCategorySlice,
     listProducts: listProductsSlice,
     cart: cartSlice,
+    tokenLocalStore:tokenLocalStoreSlice,
   },
 });

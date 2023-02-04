@@ -10,7 +10,7 @@ width:auto;
 } 
 
 .accepButton{
-  background: -webkit-linear-gradient(right, #ccd3c9, #5e7267);
+    background: -webkit-linear-gradient(right, #ccd3c9, #5e7267);
     border: none;
     border-radius: 21px;
     box-shadow: 0px 1px 8px #373a38;
@@ -18,9 +18,26 @@ width:auto;
     color: rgb(15, 1, 1);
     font-family: "Raleway SemiBold", sans-serif;
     font-size: larger;
-    height: 37.8px;
+    height: 30px;
     margin: 0 auto;
     margin-top: 10px;
     transition: 0.25s;
     width: 150px;
+}
+
+.accepButtonDisable{
+  background: -webkit-linear-gradient(right, #ccd3c9, #d3d6d5);
+  border: none;
+  border-radius: 21px;
+  /* box-shadow: 0px 1px 8px #373a38; */
+  /* cursor: pointer; */
+  color: rgb(252, 249, 249);
+  font-family: "Raleway SemiBold", sans-serif;
+  font-size: larger;
+  height: 30px;
+  margin: 0 auto;
+  margin-top: 10px;
+  transition: 0.25s;
+  width: 150px;
+  
 }

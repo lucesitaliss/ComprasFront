@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import "./login.css";
 import { getApiUrl } from "../../api";
+import { useSelector, useDispatch } from "react-redux";
+import { addToken } from "../../features/tokenLocalStoreSlice/tokenLocalStoreSlice";
 // import { Redirect } from "react-router-dom";
 
 export default function Login() {
+  const dispatch = useDispatch();
+  const { tokenLocalStore } = useSelector((state) => state.tokenLocalStore);
   const [dataLogin, setDataLogin] = useState({
     name: "",
     password: "",
@@ -15,9 +19,8 @@ export default function Login() {
     setDataLogin({ ...dataLogin, [name]: value });
   };
 
-  const handleSumit = async (event) => {
+  const handleSumitLogin = async (event) => {
     event.preventDefault();
-    localStorage.clear();
     const urlLoging = getApiUrl("login");
     const response = await fetch(urlLoging, {
       method: "POST",
@@ -27,19 +30,42 @@ export default function Login() {
     const token = await response.json();
 
     localStorage.setItem("token", token);
+    const localS = localStorage.getItem("token");
+    dispatch(addToken(localS));
+    event.target.reset();
   };
+
+  const handleSumitLogout = (event) => {
+    event.preventDefault();
+    localStorage.clear();
+    dispatch(addToken(""));
+  };
+
   // if (shouldRedirect) {
   //   return <Redirect to="/Cart" />;
   // }
   return (
-    <form className="loginForm" onSubmit={handleSumit}>
+    <form className="loginForm" onSubmit={handleSumitLogin}>
+      {console.log(tokenLocalStore)}
       <input placeholder="Enter the user" name="name" onChange={handlechange} />
       <input
         placeholder="Enter the password"
         name="password"
         onChange={handlechange}
       />
-      <input className="accepButton" type="submit" value="Accept" />
+      <input
+        className={!tokenLocalStore ? "accepButton" : "accepButtonDisable"}
+        type="submit"
+        value="Login"
+        disable={tokenLocalStore}
+      />
+      <input
+        className={tokenLocalStore ? "accepButton" : "accepButtonDisable"}
+        type="submit"
+        value="Logout"
+        onClick={handleSumitLogout}
+        disable={!tokenLocalStore}
+      />
     </form>
   );
 }

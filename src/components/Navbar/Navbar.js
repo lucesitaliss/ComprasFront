@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import "./navbar.css";
-
 import { useSelector } from "react-redux";
 
+import "./navbar.css";
+
 export default function Navbar(props) {
-  console.log(props);
+  // const { tokenLocalStore } = useSelector((state) => state.tokenLocalStore);
+
   const [current, setCurrent] = useState(0);
   const { cart } = useSelector((state) => state.cart);
 
