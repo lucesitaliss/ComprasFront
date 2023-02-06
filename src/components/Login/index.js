@@ -3,7 +3,6 @@ import "./login.css";
 import { getApiUrl } from "../../api";
 import { useSelector, useDispatch } from "react-redux";
 import { addToken } from "../../features/tokenLocalStoreSlice/tokenLocalStoreSlice";
-// import { Redirect } from "react-router-dom";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -12,7 +11,6 @@ export default function Login() {
     name: "",
     password: "",
   });
-  // const [shouldRedirect, setShouldRedirect] = useState(false);
 
   const handlechange = (event) => {
     const { name, value } = event.target;
@@ -27,12 +25,14 @@ export default function Login() {
       body: JSON.stringify(dataLogin),
       headers: { "content-type": "application/json" },
     });
+    event.target.reset();
     const token = await response.json();
 
-    localStorage.setItem("token", token);
-    const localS = localStorage.getItem("token");
-    dispatch(addToken(localS));
-    event.target.reset();
+    if (token) {
+      localStorage.setItem("token", token);
+      const localS = localStorage.getItem("token");
+      dispatch(addToken(localS));
+    }
   };
 
   const handleSumitLogout = (event) => {
@@ -41,12 +41,8 @@ export default function Login() {
     dispatch(addToken(""));
   };
 
-  // if (shouldRedirect) {
-  //   return <Redirect to="/Cart" />;
-  // }
   return (
     <form className="loginForm" onSubmit={handleSumitLogin}>
-      {console.log(tokenLocalStore)}
       <input placeholder="Enter the user" name="name" onChange={handlechange} />
       <input
         placeholder="Enter the password"
