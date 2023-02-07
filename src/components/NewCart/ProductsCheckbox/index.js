@@ -3,10 +3,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { addProducts } from "../../../features/listProducts/listProductsSlice";
 import { changeCheckedAccion } from "../../../features/listProducts/listProductsSlice";
 import { addCart } from "../../../features/cart/cartSlice";
+import { getLocalStoreToken } from "../../../features/localStoreToken/localStoreTokenSlice";
 import { Redirect } from "react-router-dom";
 import "./productCheckbox.css";
 import "animate.css";
 import { getApiUrl } from "../../../api";
+import localStoreToken from "../../Utils/localStoreToken";
 
 export default function ProductsCheckbox() {
   const dispatch = useDispatch();
@@ -15,9 +17,13 @@ export default function ProductsCheckbox() {
   const [loadingProducts, setLoadingProducts] = useState("");
   const { categoryId } = useSelector((state) => state.categorySelect);
   const { products } = useSelector((state) => state.listProducts);
-  const { tokenLocalStore } = useSelector((state) => state.tokenLocalStore);
+  const { tokenLocalStore } = useSelector((state) => state.localStoreToken);
 
   const [shouldRedirect, setShouldRedirect] = useState(false);
+
+  useEffect(() => {
+    dispatch(getLocalStoreToken(localStoreToken()));
+  }, []);
 
   useEffect(() => {
     categoryId && getProductsByCategory();
@@ -27,14 +33,15 @@ export default function ProductsCheckbox() {
     products && changeChecked();
   }, [products]);
 
-  // const navegate = useNavigate()
-
   const getProductsByCategory = async () => {
     try {
       if (categoryId > 0) {
-        const apiUrl = getApiUrl(`products/category/${categoryId}`);
+        const apiUrl = getApiUrl(`products/category/${categoryId}`
+      );
         setLoadingProducts(true);
-        const response = await fetch(apiUrl);
+        const response = await fetch(apiUrl,{ 
+          headers: {"x-acces-token": tokenLocalStore}
+        });
         const result = await response.json();
         dispatch(addProducts(result));
       }
@@ -61,7 +68,10 @@ export default function ProductsCheckbox() {
       const updateChecked = await fetch(apiUrlChecked, {
         method: "PUT",
         body: JSON.stringify(dataBody),
-        headers: { "content-type": "application/json" },
+        headers: {
+          "content-type": "application/json",
+          "x-acces-token": tokenLocalStore,
+        },
       });
 
       const updateProduct = await updateChecked.json();
@@ -111,7 +121,6 @@ export default function ProductsCheckbox() {
   const handleSumit = async (e) => {
     e.preventDefault();
     await insertCart();
-    // navegate('/')
   };
 
   const clean = async (e) => {
@@ -119,10 +128,11 @@ export default function ProductsCheckbox() {
       const apiUrl = getApiUrl("products/checked/reset");
       const resetChecked = await fetch(apiUrl, {
         method: "PUT",
+        headers: { "x-acces-token": tokenLocalStore },
       });
 
       if (resetChecked.ok) {
-        const resetProducts = await resetChecked.json();
+        await resetChecked.json();
         getProductsByCategory();
       }
     } catch (error) {

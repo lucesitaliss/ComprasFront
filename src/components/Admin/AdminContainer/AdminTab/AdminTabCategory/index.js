@@ -5,6 +5,8 @@ import Swal from "sweetalert2";
 import "./adminTabCategory.css";
 import { useSelector, useDispatch } from "react-redux";
 import { addCategories } from "../../../../../features/listCategory/listCategorySlice";
+import { getLocalStoreToken } from "../../../../../features/localStoreToken/localStoreTokenSlice";
+import localStoreToken from "../../../../Utils/localStoreToken";
 import Insert from "../../Insert";
 import { getApiUrl } from "../../../../../api";
 
@@ -12,6 +14,11 @@ export default function AdminTabCategory() {
   const dispatch = useDispatch();
 
   const { categories } = useSelector((state) => state.listCategory);
+  const { tokenLocalStore } = useSelector((state) => state.localStoreToken);
+
+  useEffect(() => {
+    dispatch(getLocalStoreToken(localStoreToken()));
+  }, []);
 
   useEffect(() => {
     allCategories();
@@ -20,7 +27,9 @@ export default function AdminTabCategory() {
   const allCategories = async () => {
     try {
       const urlApiCategories = getApiUrl("categories");
-      const result = await fetch(urlApiCategories);
+      const result = await fetch(urlApiCategories, {
+        headers: { "x-acces-token": tokenLocalStore },
+      });
       if (result.ok) {
         const categories = await result.json();
         dispatch(addCategories(categories));
@@ -35,6 +44,7 @@ export default function AdminTabCategory() {
       const urlApiDeleteCategory = getApiUrl(`category/delete/${idCategory}`);
       await fetch(urlApiDeleteCategory, {
         method: "PUT",
+        headers: { "x-acces-token": tokenLocalStore },
       });
       allCategories();
     } catch (error) {
@@ -71,15 +81,16 @@ export default function AdminTabCategory() {
       const result = await fetch(UrlApiCategoryUpdate, {
         method: "PUT",
         body: JSON.stringify(bodyEditCategory),
-        headers: { "content-type": "application/json" },
+        headers: {
+          "content-type": "application/json",
+          "x-acces-token": tokenLocalStore,
+        },
       });
       if (result.ok) {
         await result.json();
         allCategories();
       }
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   };
 
   const handleOnClickEditCategory = async (currentCategory, id) => {

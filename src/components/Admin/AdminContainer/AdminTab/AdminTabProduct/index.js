@@ -4,15 +4,22 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import Swal from "sweetalert2";
 import { useSelector, useDispatch } from "react-redux";
 import { addProducts } from "../../../../../features/listProducts/listProductsSlice";
+import { getLocalStoreToken } from "../../../../../features/localStoreToken/localStoreTokenSlice";
+import localStoreToken from "../../../../Utils/localStoreToken";
 import { CategorySelect } from "../../../../NewCart/CategorySelect";
 import Insert from "../../Insert";
-import "./adminTabProduct.css";
 import { getApiUrl } from "../../../../../api";
+import "./adminTabProduct.css";
 
 export default function AdminTabProduct() {
   const dispatch = useDispatch();
   const { categoryId } = useSelector((state) => state.categorySelect);
   const { products } = useSelector((state) => state.listProducts);
+
+  const { tokenLocalStore } = useSelector((state) => state.localStoreToken);
+  useEffect(() => {
+    dispatch(getLocalStoreToken(localStoreToken()));
+  }, []);
 
   useEffect(() => {
     productsByCategory();
@@ -22,7 +29,9 @@ export default function AdminTabProduct() {
     try {
       if (categoryId > 0) {
         const urlApyCategoryId = getApiUrl(`products/category/${categoryId}`);
-        const result = await fetch(urlApyCategoryId);
+        const result = await fetch(urlApyCategoryId, {
+          headers: { "x-acces-token": tokenLocalStore },
+        });
         if (result.ok) {
           const products = await result.json();
           dispatch(addProducts(products));
@@ -65,7 +74,10 @@ export default function AdminTabProduct() {
       const result = await fetch(urlApiProductDelete, {
         method: "PUT",
         body: JSON.stringify(bodyDelete),
-        headers: { "content-type": "application/json" },
+        headers: {
+          "content-type": "application/json",
+          "x-acces-token": tokenLocalStore,
+        },
       });
       if (result.ok) {
         productsByCategory();
@@ -104,7 +116,10 @@ export default function AdminTabProduct() {
       const result = await fetch(urlApiInsertProduct, {
         method: "PUT",
         body: JSON.stringify(bodyEdit),
-        headers: { "content-type": "application/json" },
+        headers: {
+          "content-type": "application/json",
+          "x-acces-token": tokenLocalStore,
+        },
       });
       if (result.ok) {
         productsByCategory();

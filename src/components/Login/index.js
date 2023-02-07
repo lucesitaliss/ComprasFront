@@ -11,10 +11,9 @@ export default function Login() {
     name: "",
     password: "",
   });
-
-  const { tokenLocalStore } = useSelector((state) => state.localStoreToken);
   
   const dispatch = useDispatch();
+  const { tokenLocalStore } = useSelector((state) => state.localStoreToken);
 
   useEffect(() => {
     dispatch(getLocalStoreToken(localStoreToken()));

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addCategorySelect } from "../../../features/category/categorySlice";
+import { getLocalStoreToken } from "../../../features/localStoreToken/localStoreTokenSlice";
+import localStoreToken from "../../Utils/localStoreToken";
 import { getApiUrl } from "../../../api";
 import "./categorySelect.css";
 
@@ -9,6 +11,12 @@ export function CategorySelect() {
   const { categoryId } = useSelector((state) => state.categorySelect);
 
   const dispatch = useDispatch();
+
+  const { tokenLocalStore } = useSelector((state) => state.localStoreToken);
+ 
+  useEffect(() => {
+    dispatch(getLocalStoreToken(localStoreToken()));
+  }, []);
 
   const handleChange = (e) => {
     if (e.target.value > 0) {
@@ -19,7 +27,9 @@ export function CategorySelect() {
   const getCategories = async () => {
     try {
       const apiUrl = getApiUrl("categories");
-      const response = await fetch(apiUrl);
+      const response = await fetch(apiUrl, {
+        headers: {"x-acces-token": tokenLocalStore}
+      });
       const result = await response.json();
 
       setCategories(result);
