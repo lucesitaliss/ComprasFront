@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addCart } from "../../features/cart/cartSlice";
 import { RiDeleteBin6Line } from "react-icons/ri";
 // import { useNavigate } from 'react-router-dom'
@@ -11,6 +11,7 @@ export default function Cart() {
   const [selectProduct, setSelectProduct] = useState({});
   // const navegate = useNavigate()
   const dispatch = useDispatch();
+  const { tokenLocalStore } = useSelector((state) => state.tokenLocalStore);
 
   useEffect(() => {
     getProductsSelections();
@@ -18,10 +19,9 @@ export default function Cart() {
 
   const getProductsSelections = async () => {
     try {
-      const token = localStorage.getItem("token");
       const urlApiCart = getApiUrl("cart");
       const response = await fetch(urlApiCart, {
-        headers: { "x-acces-token": token },
+        headers: { "x-acces-token": tokenLocalStore },
       });
       const result = await response.json();
       if (response.ok) {
@@ -37,6 +37,7 @@ export default function Cart() {
     const urlApiCart = getApiUrl("cart");
     const response = await fetch(urlApiCart, {
       method: "DELETE",
+     
     });
 
     if (response.ok) {
@@ -63,7 +64,10 @@ export default function Cart() {
       const response = await fetch(urlApiCart, {
         method: "PUT",
         body: JSON.stringify(bodyParams),
-        headers: { "content-type": "application/json" },
+        headers: {
+          "content-type": "application/json",
+          
+        },
       });
       if (response.ok) {
         getProductsSelections();
@@ -75,7 +79,7 @@ export default function Cart() {
 
   const resetCheckedProduct = async (id) => {
     const urlApiResetCheked = getApiUrl(`product/checked/reset/id/${id}`);
-    const response = await fetch(urlApiResetCheked, {
+    await fetch(urlApiResetCheked, {
       method: "PUT",
     });
   };

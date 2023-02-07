@@ -1,16 +1,24 @@
-import React, { useState } from "react";
-import "./login.css";
+import React, { useEffect, useState } from "react";
 import { getApiUrl } from "../../api";
 import { useSelector, useDispatch } from "react-redux";
-import { addToken } from "../../features/tokenLocalStoreSlice/tokenLocalStoreSlice";
+import { getLocalStoreToken } from "../../features/localStoreToken/localStoreTokenSlice";
+import localStoreToken from "../Utils/localStoreToken";
+import "./login.css";
 
 export default function Login() {
-  const dispatch = useDispatch();
-  const { tokenLocalStore } = useSelector((state) => state.tokenLocalStore);
+ 
   const [dataLogin, setDataLogin] = useState({
     name: "",
     password: "",
   });
+
+  const { tokenLocalStore } = useSelector((state) => state.localStoreToken);
+  
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getLocalStoreToken(localStoreToken()));
+  }, []);
 
   const handlechange = (event) => {
     const { name, value } = event.target;
@@ -30,15 +38,14 @@ export default function Login() {
 
     if (token) {
       localStorage.setItem("token", token);
-      const localS = localStorage.getItem("token");
-      dispatch(addToken(localS));
+      dispatch(getLocalStoreToken(token));
     }
   };
 
   const handleSumitLogout = (event) => {
     event.preventDefault();
     localStorage.clear();
-    dispatch(addToken(""));
+    dispatch(getLocalStoreToken(""));
   };
 
   return (

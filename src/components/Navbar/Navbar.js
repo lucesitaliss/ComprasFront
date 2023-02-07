@@ -1,14 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, Redirect } from "react-router-dom";
-import { useSelector } from "react-redux";
-
+import { useSelector, useDispatch } from "react-redux";
+import { getLocalStoreToken } from "../../features/localStoreToken/localStoreTokenSlice";
+import localStoreToken from "../Utils/localStoreToken";
 import "./navbar.css";
 
 export default function Navbar(props) {
-  const { tokenLocalStore } = useSelector((state) => state.tokenLocalStore);
+  const dispatch = useDispatch();
+  
+  const { tokenLocalStore } = useSelector((state) => state.localStoreToken);
 
-  const [current, setCurrent] = useState(0);
+  useEffect(() => {
+    dispatch(getLocalStoreToken(localStoreToken()));
+  }, []);
+
   const { cart } = useSelector((state) => state.cart);
+  const [current, setCurrent] = useState(0);
 
   if (!tokenLocalStore) {
     return <Redirect to="/" />;
@@ -27,7 +34,6 @@ export default function Navbar(props) {
 
   return (
     <nav>
-      {console.log(tokenLocalStore)}
       {Object.entries(adminNav).map(([navName, nav]) => {
         const isCurrent = current === nav.id;
         const isId2 = nav.id === 3;

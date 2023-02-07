@@ -15,6 +15,8 @@ export default function ProductsCheckbox() {
   const [loadingProducts, setLoadingProducts] = useState("");
   const { categoryId } = useSelector((state) => state.categorySelect);
   const { products } = useSelector((state) => state.listProducts);
+  const { tokenLocalStore } = useSelector((state) => state.tokenLocalStore);
+
   const [shouldRedirect, setShouldRedirect] = useState(false);
 
   useEffect(() => {
@@ -90,7 +92,10 @@ export default function ProductsCheckbox() {
         const response = await fetch(apiUrlCart, {
           method: "POST",
           body: JSON.stringify(selectProducts),
-          headers: { "content-type": "application/json" },
+          headers: {
+            "content-type": "application/json",
+            "x-acces-token": tokenLocalStore,
+          },
         });
         const postCart = await response.json();
         if (response.ok) {
