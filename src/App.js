@@ -12,11 +12,7 @@ export default function App() {
   return (
     <Router basename="/comprasfront">
       <Navbar />
-
       <Route exact path="/">
-        <Login />
-      </Route>
-      <Route path="/cart">
         <Cart />
       </Route>
       <Route path="/newcart">
@@ -27,6 +23,9 @@ export default function App() {
       </Route>
       <Route path="/admin">
         <Admin />
+      </Route>
+      <Route path="/login">
+        <Login />
       </Route>
     </Router>
   );

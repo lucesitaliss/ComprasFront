@@ -7,25 +7,25 @@ import "./navbar.css";
 
 export default function Navbar(props) {
   const dispatch = useDispatch();
-  
+
   const { tokenLocalStore } = useSelector((state) => state.localStoreToken);
 
   useEffect(() => {
     dispatch(getLocalStoreToken(localStoreToken()));
   }, []);
-
+ 
   const { cart } = useSelector((state) => state.cart);
   const [current, setCurrent] = useState(0);
 
   if (!tokenLocalStore) {
-    return <Redirect to="/" />;
+    return <Redirect to="/login" />;
   }
 
   const adminNav = {
-    login: { id: 1, name: "login", title: "Login", to: "/" },
-    cart: { id: 2, name: "cart", title: "Cart", to: "/cart" },
+    cart: { id: 2, name: "cart", title: "Cart", to: "/" },
     newCart: { id: 3, name: "newcart", title: "New Cart", to: "/newcart" },
     admin: { id: 4, name: "admin", title: "Admin", to: "/admin" },
+    login: { id: 1, name: "login", title: "Login", to: "/login" },
   };
 
   const handleOnClick = (id) => {
