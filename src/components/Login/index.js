@@ -6,12 +6,11 @@ import localStoreToken from "../Utils/localStoreToken";
 import "./login.css";
 
 export default function Login() {
- 
   const [dataLogin, setDataLogin] = useState({
     name: "",
     password: "",
   });
-  
+
   const dispatch = useDispatch();
   const { tokenLocalStore } = useSelector((state) => state.localStoreToken);
 

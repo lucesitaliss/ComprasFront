@@ -13,7 +13,7 @@ export default function Navbar(props) {
   useEffect(() => {
     dispatch(getLocalStoreToken(localStoreToken()));
   }, []);
- 
+
   const { cart } = useSelector((state) => state.cart);
   const [current, setCurrent] = useState(0);
 
