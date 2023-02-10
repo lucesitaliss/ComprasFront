@@ -18,6 +18,7 @@ export default function ProductsCheckbox() {
   const { categoryId } = useSelector((state) => state.categorySelect);
   const { products } = useSelector((state) => state.listProducts);
   const { tokenLocalStore } = useSelector((state) => state.localStoreToken);
+  const { cart } = useSelector((state) => state.cart);
 
   const [shouldRedirect, setShouldRedirect] = useState(false);
 
@@ -36,11 +37,10 @@ export default function ProductsCheckbox() {
   const getProductsByCategory = async () => {
     try {
       if (categoryId > 0) {
-        const apiUrl = getApiUrl(`products/category/${categoryId}`
-      );
+        const apiUrl = getApiUrl(`products/category/${categoryId}`);
         setLoadingProducts(true);
-        const response = await fetch(apiUrl,{ 
-          headers: {"x-acces-token": tokenLocalStore}
+        const response = await fetch(apiUrl, {
+          headers: { "x-acces-token": tokenLocalStore },
         });
         const result = await response.json();
         dispatch(addProducts(result));
@@ -74,9 +74,8 @@ export default function ProductsCheckbox() {
         },
       });
 
-      const updateProduct = await updateChecked.json();
-
       if (updateChecked.ok) {
+        const updateProduct = await updateChecked.json();
         dispatch(changeCheckedAccion(updateProduct[0]));
       }
     } catch (error) {
@@ -92,7 +91,11 @@ export default function ProductsCheckbox() {
   const insertCart = async () => {
     try {
       const apiUrlProducts = getApiUrl("products");
-      const getProducts = await fetch(apiUrlProducts);
+      const getProducts = await fetch(apiUrlProducts, {
+        headers: {
+          "x-acces-token": tokenLocalStore,
+        },
+      });
       if (getProducts.ok) {
         const allProducts = await getProducts.json();
         const selectProducts = allProducts.filter(
@@ -110,7 +113,7 @@ export default function ProductsCheckbox() {
         const postCart = await response.json();
         if (response.ok) {
           dispatch(addCart(postCart));
-          setShouldRedirect(true);
+          // setShouldRedirect(true);
         }
       }
     } catch (error) {
@@ -120,7 +123,7 @@ export default function ProductsCheckbox() {
 
   const handleSumit = async (e) => {
     e.preventDefault();
-    await insertCart();
+    insertCart();
   };
 
   const clean = async (e) => {
@@ -147,9 +150,9 @@ export default function ProductsCheckbox() {
     }
   };
 
-  if (shouldRedirect) {
-    return <Redirect to="/Cart" />;
-  }
+  // if (shouldRedirect) {
+  //   return <Redirect to="/Cart" />;
+  // }
 
   return (
     <div className="container">
@@ -158,10 +161,9 @@ export default function ProductsCheckbox() {
           <input
             disabled={!isChecked.length}
             type="submit"
-            value="Actualizar"
+            value={cart ? "Actualizar" : "Create List"}
             name="send"
           />
-
           <button disabled={!isChecked.length} onClick={clean}>
             Clear
           </button>
