@@ -4,13 +4,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { getLocalStoreToken } from "../../features/localStoreToken/localStoreTokenSlice";
 import localStoreToken from "../Utils/localStoreToken";
 import "./login.css";
+import { Redirect } from "react-router-dom";
 
 export default function Login() {
   const [dataLogin, setDataLogin] = useState({
     name: "",
     password: "",
   });
-
+  const [redirectCart, setRedirectCart] = useState(false);
   const dispatch = useDispatch();
   const { tokenLocalStore } = useSelector((state) => state.localStoreToken);
 
@@ -37,6 +38,7 @@ export default function Login() {
     if (token) {
       localStorage.setItem("token", token);
       dispatch(getLocalStoreToken(token));
+      setRedirectCart(true);
     }
   };
 
@@ -67,6 +69,7 @@ export default function Login() {
         onClick={handleSumitLogout}
         disable={!tokenLocalStore}
       />
+      {redirectCart ? <Redirect to="/" /> : null}
     </form>
   );
 }
