@@ -1,5 +1,23 @@
 .userAdminForm{
     display: flex;
     gap: 5px;
-    padding-top: 15px;
+    padding-top: 10px;
+}
+.inputForm{
+    margin-top: 5px;
+    width: 95px;
+    height: 15px;
+  
+}
+
+.butonForm{
+    margin-top: 5px;
+    width: 90px;
+    height: 20px;
+}
+
+.listUsers{
+    padding-top: 10px;
+    display: flex;
+    gap: 3px
 }

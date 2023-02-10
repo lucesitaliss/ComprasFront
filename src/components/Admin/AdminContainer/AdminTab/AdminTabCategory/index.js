@@ -123,12 +123,11 @@ export default function AdminTabCategory() {
   };
 
   return (
-    <div>
+    <div className="tapCategory">
       <Insert name="category" />
       {categories.map((category) => (
         <div className="listCategories" key={category.category_id}>
           <BiEditAlt
-            className="iconEdit"
             onClick={() => {
               handleOnClickEditCategory(
                 category.category_name,
@@ -137,7 +136,6 @@ export default function AdminTabCategory() {
             }}
           />
           <RiDeleteBin6Line
-            className="iconDelete"
             onClick={() => {
               handleOnCLickDeleteCategorie(
                 category.category_id,

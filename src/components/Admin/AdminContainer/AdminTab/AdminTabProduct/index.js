@@ -135,16 +135,15 @@ export default function AdminTabProduct() {
         <CategorySelect />
         <Insert className="insert" name="product" />
       </div>
+
       {products.map((product) => (
         <div className="listProducts" key={product.product_id}>
           <BiEditAlt
-            className="iconEditProduct"
             onClick={() => {
               handleOnClickEdit(product.product_name, product.product_id);
             }}
           />
           <RiDeleteBin6Line
-            className="iconDeleteProduct"
             onClick={() => {
               handleOnclikDeleteProduct(
                 product.product_id,

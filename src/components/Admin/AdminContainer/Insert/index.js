@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./insert.css";
 import { useDispatch, useSelector } from "react-redux";
+import { getLocalStoreToken } from "../../../../features/localStoreToken/localStoreTokenSlice";
+import localStoreToken from "../../../Utils/localStoreToken";
 import { insertNewCategory } from "../../../../features/listCategory/listCategorySlice";
 import { insertNewProduct } from "../../../../features/listProducts/listProductsSlice";
 import { getApiUrl } from "../../../../api";
@@ -9,12 +11,17 @@ export default function Insert({ name }) {
   const dispatch = useDispatch();
 
   const { categoryId } = useSelector((state) => state.categorySelect);
+  const { tokenLocalStore } = useSelector((state) => state.localStoreToken);
 
   const [input, setInput] = useState({ category: "" });
   const [dataProduct, setdataProduct] = useState({
     product: "",
     category: "",
   });
+
+  useEffect(() => {
+    dispatch(getLocalStoreToken(localStoreToken()));
+  }, []);
 
   const handleSumit = async (e) => {
     e.preventDefault();
@@ -25,7 +32,10 @@ export default function Insert({ name }) {
           const result = await fetch(apiUrl, {
             method: "POST",
             body: JSON.stringify(input),
-            headers: { "content-type": "application/json" },
+            headers: {
+              "content-type": "application/json",
+              "x-acces-token": tokenLocalStore,
+            },
           });
           if (result.ok) {
             const newCategory = await result.json();
@@ -38,7 +48,10 @@ export default function Insert({ name }) {
           const result = await fetch(apiUrl, {
             method: "POST",
             body: JSON.stringify(dataProduct),
-            headers: { "content-type": "application/json" },
+            headers: {
+              "content-type": "application/json",
+              "x-acces-token": tokenLocalStore,
+            },
           });
           if (result.ok) {
             const newProduct = await result.json();
