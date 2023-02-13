@@ -9,12 +9,11 @@ import { getApiUrl } from "../../api";
 import "./cart.css";
 
 export default function Cart() {
-
   const [selectProduct, setSelectProduct] = useState({});
   const dispatch = useDispatch();
 
   const { tokenLocalStore } = useSelector((state) => state.localStoreToken);
- 
+
   useEffect(() => {
     dispatch(getLocalStoreToken(localStoreToken()));
   }, []);
@@ -22,7 +21,6 @@ export default function Cart() {
   useEffect(() => {
     getProductsSelections();
   }, []);
-
 
   const getProductsSelections = async () => {
     try {
@@ -44,8 +42,7 @@ export default function Cart() {
     const urlApiCart = getApiUrl("cart");
     const response = await fetch(urlApiCart, {
       method: "DELETE",
-      headers:{"x-acces-token": tokenLocalStore}
-     
+      headers: { "x-acces-token": tokenLocalStore },
     });
 
     if (response.ok) {
@@ -54,9 +51,17 @@ export default function Cart() {
     }
   };
 
-  const handleSumitCleanList = (e) => {
+  const handleSumitCleanList = async (e) => {
     e.preventDefault();
-    deleteCart();
+    const confirmationRequest = await Swal.fire({
+      text: "Are you sure you want to delete the cart?",
+      icon: "delete",
+      showConfirmButton: true,
+      showCancelButton: true,
+    });
+    if (confirmationRequest.isConfirmed) {
+      deleteCart();
+    }
   };
 
   const handleSubmitProductList = async (id, selected) => {
@@ -71,7 +76,7 @@ export default function Cart() {
         body: JSON.stringify(bodyParams),
         headers: {
           "content-type": "application/json",
-          "x-acces-token": tokenLocalStore
+          "x-acces-token": tokenLocalStore,
         },
       });
       if (response.ok) {
@@ -86,7 +91,7 @@ export default function Cart() {
     const urlApiResetCheked = getApiUrl(`product/checked/reset/id/${id}`);
     await fetch(urlApiResetCheked, {
       method: "PUT",
-      headers: {"x-acces-token": tokenLocalStore}
+      headers: { "x-acces-token": tokenLocalStore },
     });
   };
 
@@ -94,7 +99,7 @@ export default function Cart() {
     const urlApiCartId = getApiUrl(`cart/${id}`);
     const response = await fetch(urlApiCartId, {
       method: "DELETE",
-      headers: {"x-acces-token": tokenLocalStore}
+      headers: { "x-acces-token": tokenLocalStore },
     });
     if (response.ok) {
       getProductsSelections();
