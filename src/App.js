@@ -10,7 +10,7 @@ import Login from "./components/Login/index";
 
 export default function App() {
   return (
-    <Router basename="/comprasfront">
+    <Router basename="/shopping-list">
       <Navbar />
       <Route exact path="/">
         <Cart />
