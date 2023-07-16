@@ -48,7 +48,7 @@
       "react-hooks/exhaustive-deps": 0,
       "security/detect-object-injection": 0,
       "react/require-default-props": 1,
-      "react/prop-types": 2,
+      "react/prop-types": 0,
       "no-console": [
         "error",
         {
