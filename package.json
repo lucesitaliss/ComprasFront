@@ -34,7 +34,32 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "arrow-parens": [
+        2,
+        "always"
+      ],
+      "nordic/i18n-jsx-no-literals": 0,
+      "import/prefer-default-export": 0,
+      "react/jsx-closing-bracket-location": 0,
+      "no-use-before-define": "off",
+      "import/no-cycle": 0,
+      "react-hooks/exhaustive-deps": 0,
+      "security/detect-object-injection": 0,
+      "react/require-default-props": 1,
+      "react/prop-types": 2,
+      "no-console": [
+        "error",
+        {
+          "allow": [
+            "error",
+            "warn",
+            "info"
+          ]
+        }
+      ]
+    }
   },
   "browserslist": {
     "production": [

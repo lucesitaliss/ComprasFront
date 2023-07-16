@@ -1,10 +1,10 @@
 export const getApiUrl = (urlSegment) => {
-  const projectStatus = "production";
-  //const projectStatus = "development";
-  const url =
-    projectStatus === "development"
-      ? `http://www.localhost:4000/${urlSegment}`
-      : `https://cart.cyclic.app/${urlSegment}`;
+  const isDevEnv =
+    !process.env.NODE_ENV || process.env.NODE_ENV === "development"
 
-  return url;
-};
+  const url = isDevEnv
+    ? `http://www.localhost:4000/${urlSegment}`
+    : `https://cart.cyclic.app/${urlSegment}`
+
+  return url
+}
