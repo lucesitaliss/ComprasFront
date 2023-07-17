@@ -5,7 +5,7 @@ import { getLocalStoreToken } from "../../features/localStoreToken/localStoreTok
 import localStoreToken from "../Utils/localStoreToken"
 import "./navbar.css"
 
-export default function Navbar(props) {
+export default function Navbar() {
   const dispatch = useDispatch()
   const { pathname } = useLocation()
   const { tokenLocalStore } = useSelector((state) => state.localStoreToken)
@@ -41,23 +41,24 @@ export default function Navbar(props) {
   }
 
   return (
-    <nav>
-      {Object.values(adminNav).map((nav) => {
-        const isCurrent = pathname.slice(1, pathname.length) === nav.id
-        const isCartLink = nav.id === "cart"
-        const hasOpenCart = Object.entries(cart).some((cart) => cart)
-
-        return (
-          <NavLink
-            key={nav.id}
-            to={nav.to}
-            onClick={nav.onClick}
-            className={isCurrent ? "navSelected" : "navNotSelected"}
-          >
-            {hasOpenCart && isCartLink ? "Update" : nav.title}
-          </NavLink>
-        )
-      })}
-    </nav>
+    <div className="header">
+      <nav>
+        {Object.values(adminNav).map((nav) => {
+          const isCurrent = pathname === nav.to
+          const isCartLink = nav.id === "cart"
+          const hasOpenCart = Object.entries(cart).some((cart) => cart)
+          return (
+            <NavLink
+              key={nav.id}
+              to={nav.to}
+              onClick={nav.onClick}
+              className={isCurrent ? "nav-selected" : "nav-not-selected"}
+            >
+              {hasOpenCart && isCartLink ? "Update" : nav.title}
+            </NavLink>
+          )
+        })}
+      </nav>
+    </div>
   )
 }

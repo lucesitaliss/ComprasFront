@@ -4,7 +4,6 @@ import { addProducts } from "../../../features/listProducts/listProductsSlice";
 import { changeCheckedAccion } from "../../../features/listProducts/listProductsSlice";
 import { addCart } from "../../../features/cart/cartSlice";
 import { getLocalStoreToken } from "../../../features/localStoreToken/localStoreTokenSlice";
-import { Redirect } from "react-router-dom";
 import "./productCheckbox.css";
 import "animate.css";
 import { getApiUrl } from "../../../api";
@@ -19,8 +18,6 @@ export default function ProductsCheckbox() {
   const { products } = useSelector((state) => state.listProducts);
   const { tokenLocalStore } = useSelector((state) => state.localStoreToken);
   const { cart } = useSelector((state) => state.cart);
-
-  const [shouldRedirect, setShouldRedirect] = useState(false);
 
   useEffect(() => {
     dispatch(getLocalStoreToken(localStoreToken()));

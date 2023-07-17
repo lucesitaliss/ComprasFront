@@ -135,23 +135,33 @@ export default function Cart() {
   };
 
   return (
-    <div className="cartContainer">
-      <div className="titelContainer">
+    <div className="cart-container">
+      <div className="title-container">
         <h2>List</h2>
-        <button className="ButtonEmptyList" onClick={handleSumitCleanList}>
+        <button onClick={handleSumitCleanList}>
           Clear
         </button>
       </div>
 
       {Object.entries(selectProduct).map((categories) => (
-        <div className="containerList">
-          <h3 className="titleCategory" key="categories.category_id">
+        <div className="container-list" key={categories.categoty_id}>
+          <h3 className="title-category">
             {categories?.[0]}
           </h3>
           {categories?.[1].map((product) => (
-            <div className="cartList" key={product.product_id}>
+            <div className="cart-list-item" key={product.product_id}>
+              <h5
+                onClick={() => {
+                  handleSubmitProductList(product.cart_id, product.selected);
+                }}
+                className={
+                  product.selected ? "through-product-name" : "product-name"
+                }
+              >
+                {product.product_name}
+              </h5>
               <RiDeleteBin6Line
-                className="iconDeleteCart"
+                className="icon-delete-cart"
                 onClick={() => {
                   handleSubmitDeleteCartById(
                     product.product_name,
@@ -160,16 +170,6 @@ export default function Cart() {
                   );
                 }}
               />
-              <h5
-                onClick={() => {
-                  handleSubmitProductList(product.cart_id, product.selected);
-                }}
-                className={
-                  product.selected ? "throughProductList" : "productList"
-                }
-              >
-                {product.product_name}
-              </h5>
             </div>
           ))}
         </div>

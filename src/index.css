@@ -11,3 +11,32 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+button[disabled] {
+  all: unset;
+}
+
+button, button[disabled] {
+  padding-block: .5em;
+  padding-inline: 1em;
+  font-size: large;
+  font-weight: 500;
+  font-family: 'Lucida Sans';
+  border-radius: 5px;
+  outline: none;
+  border: 2px solid #686868;
+  color: #686868;
+  background-color: #dadada;
+  transition: all .5s ease-in-out;
+  user-select: none;
+}
+
+button:hover {
+  border: 2px solid #dadada;
+  color: #dadada;
+  background-color: #686868;
+}
+
+button:active {
+  transform: scale(.9);
+}
