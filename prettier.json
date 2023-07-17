@@ -5,11 +5,5 @@
   "trailingComma": "all",
   "tabWidth": 2,
   "useTabs": false,
-  "react/jsx-max-props-per-line": [
-    3,
-    {
-      "when": "always"
-    }
-  ],
   "semi": false
 }
