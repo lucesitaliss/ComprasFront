@@ -20,14 +20,14 @@ export default function Admin() {
   }
 
   return (
-    <div className="tab">
+    <div className="tabs">
       {Object.entries(adminTabs).map(([tabName, tab]) => {
         const isCurrentTab = currentTab === tab.id
         return (
           <button
             key={tab.id}
             onClick={() => handleOnClick(tab.id, tab.name)}
-            className={isCurrentTab ? 'butonSelected' : 'buttonNotSelected'}
+            className={isCurrentTab ? 'tab-selected' : 'tab-not-selected'}
           >
             {tab.title}
           </button>

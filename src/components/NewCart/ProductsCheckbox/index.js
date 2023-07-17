@@ -147,20 +147,15 @@ export default function ProductsCheckbox() {
     }
   };
 
-  // if (shouldRedirect) {
-  //   return <Redirect to="/Cart" />;
-  // }
-
   return (
     <div className="container">
       <form className="formProductCheckbox" onSubmit={handleSumit}>
         <div className="buttonsContainers">
-          <input
+          <button
+            className="primary"
             disabled={!isChecked.length}
-            type="submit"
-            value={cart ? "Actualizar" : "Create List"}
             name="send"
-          />
+          >{cart ? "Actualizar" : "Create List"}</button>
           <button disabled={!isChecked.length} onClick={clean}>
             Clear
           </button>
@@ -184,7 +179,6 @@ export default function ProductsCheckbox() {
                       loadingListItems[product.product_id] ? "checkboxSpin" : ""
                     }
                   />
-
                   {product.product_name}
                 </label>
               );
