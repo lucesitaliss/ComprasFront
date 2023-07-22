@@ -1,14 +1,14 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
@@ -16,18 +16,19 @@ button[disabled] {
   all: unset;
 }
 
-button, button[disabled] {
-  padding-block: .5em;
-  padding-inline: 1em;
+button,
+button[disabled] {
+  padding-block: 0.25em;
+  padding-inline: 0.5em;
   font-size: large;
   font-weight: 500;
-  font-family: 'Lucida Sans';
+  font-family: "Lucida Sans";
   border-radius: 5px;
   outline: none;
   border: 2px solid #686868;
   color: #686868;
   background-color: #dadada;
-  transition: all .5s ease-in-out;
+  transition: all 0.5s ease-in-out;
   user-select: none;
 }
 
@@ -50,5 +51,5 @@ button:hover {
 }
 
 button:active {
-  transform: scale(.9);
+  transform: scale(0.9);
 }
