@@ -7,8 +7,6 @@ const WhatsApp = (props) => {
   return (
     <svg
       className={className}
-      width={size.width}
-      height={size.height}
       onClick={() => action(link)}
       viewBox="0 0 512 512"
       fill="none"
@@ -27,7 +25,6 @@ const WhatsApp = (props) => {
 }
 
 WhatsApp.propTypes = {
-  size: PropTypes.objectOf(PropTypes.string),
   className: PropTypes.string,
   action: PropTypes.func,
   link: PropTypes.string,
