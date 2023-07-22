@@ -8,13 +8,36 @@
 
 .title-container {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   gap: 10px;
   align-items: center;
 }
 
 .title-container > h2 {
   margin: 0;
+}
+
+.title-container > .actions-container {
+  display: flex;
+  gap: 10px;
+}
+
+.share-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wapp-icon {
+  width: 20px;
+  height: 20px;
+  fill: #686868;
+  margin-left: 5px;
+  transition: all 0.5s ease-in-out;
+}
+
+.share-button:hover > .wapp-icon {
+  fill: #dadada;
 }
 
 .title-category {
@@ -32,6 +55,7 @@
   border-radius: 3px;
   padding-top: 3px;
   padding-bottom: 4px;
+  user-select: none;
 }
 
 .cart-list-item:hover {
