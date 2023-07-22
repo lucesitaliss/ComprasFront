@@ -161,9 +161,9 @@ export default function Cart() {
   const handleShareList = async () => {
     const formattedProducts = formatProductsForWhatsApp(selectProducts)
 
-    const url = `https://wa.me/5491127375403?text=${encodeURIComponent(
+    const url = `https://wa.me?text=${encodeURIComponent(
       formattedProducts
-    )}&share=false`
+    )}&share=true`
 
     window.open(url, "_blank")
   }
