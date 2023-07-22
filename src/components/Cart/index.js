@@ -176,40 +176,46 @@ export default function Cart() {
           <button onClick={handleSumitCleanList}>Clear</button>
           <button onClick={handleShareList} className="share-button">
             <span>Share </span>
-            <WhatsApp size={{ with: 10, height: 10 }} className="wapp-icon" />
+            <WhatsApp className="wapp-icon" />
           </button>
         </div>
       </div>
 
-      {Object.entries(selectProducts).map((categories) => (
-        <div className="container-list" key={categories.categoty_id}>
-          <h3 className="title-category">{categories?.[0]}</h3>
-          {categories?.[1].map((product) => (
-            <div className="cart-list-item" key={product.product_id}>
-              <h5
-                onClick={() => {
+      {Object.entries(selectProducts).map(
+        ([categoryName, categoryProducts]) => (
+          <div className="container-list" key={categoryName}>
+            <h3 className="title-category">{categoryName}</h3>
+            {categoryProducts.map((product) => (
+              <div
+                key={product.product_id}
+                className="cart-list-item"
+                onClick={(event) => {
+                  if (/path|svg/.test(event.target.nodeName)) return
                   handleSubmitProductList(product.cart_id, product.selected)
                 }}
-                className={
-                  product.selected ? "through-product-name" : "product-name"
-                }
               >
-                {product.product_name}
-              </h5>
-              <RiDeleteBin6Line
-                className="icon-delete-cart"
-                onClick={() => {
-                  handleSubmitDeleteCartById(
-                    product.product_name,
-                    product.cart_id,
-                    product.product_id
-                  )
-                }}
-              />
-            </div>
-          ))}
-        </div>
-      ))}
+                <h5
+                  className={
+                    product.selected ? "selected-product-name" : "product-name"
+                  }
+                >
+                  {product.product_name}
+                </h5>
+                <RiDeleteBin6Line
+                  className="icon-delete-cart"
+                  onClick={() => {
+                    handleSubmitDeleteCartById(
+                      product.product_name,
+                      product.cart_id,
+                      product.product_id
+                    )
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+        )
+      )}
     </div>
   )
 }
