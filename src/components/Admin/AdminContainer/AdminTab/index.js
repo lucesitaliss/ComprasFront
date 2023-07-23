@@ -6,12 +6,13 @@ import './adminTab.css'
 
 export default function AdminTab({ name }) {
   if (name === 'category') {
-    
-    return <AdminTabCategory />
+        return <AdminTabCategory />
   }
+
   if (name === 'product') {
     return <AdminTabProduct />
   }
+  
   if (name === 'user') {
     return <AdminTabUser />
   }

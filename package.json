@@ -24,9 +24,7 @@
     "react-redux": "^8.0.4",
     "react-router-dom": "^5.3.4",
     "react-scripts": "5.0.1",
-    "save-dev": "^0.0.1-security",
     "socket.io-client": "^4.5.4",
-    "sweetalert": "^2.1.2",
     "sweetalert2": "^11.6.10",
     "web-vitals": "^2.1.4"
   },
@@ -43,6 +41,7 @@
     ]
   },
   "devDependencies": {
-    "prettier": "^3.0.0"
+    "prettier": "^3.0.0",
+    "eslint-plugin-prettier": "^5.0.0"
   }
 }
