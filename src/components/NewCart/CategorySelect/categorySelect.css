@@ -1,11 +1,9 @@
-.selectContainer{
-    display: flex;
-    padding-left:5px;
-    padding-top: 10px;
+.select-container {
+	display: flex;
 }
-select{
-    margin-top: 5px;
-    width: 120px;
-    height: 20px;
-     
+
+select {
+	min-width: 120px;
+	padding-inline: 0.5em;
+	border-radius: 5px;
 }

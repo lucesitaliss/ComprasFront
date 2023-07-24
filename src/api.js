@@ -1,10 +1,9 @@
+const BASE_API_URL = 'https://cart.cyclic.app'
+const BASE_API_LOCAL_URL = 'http://www.localhost:4000'
+
 export const getApiUrl = (urlSegment) => {
-  const isDevEnv =
-    !process.env.NODE_ENV || process.env.NODE_ENV === "development"
+	// const url = `${BASE_API_LOCAL_URL}/${urlSegment}`
+	const url = `${BASE_API_URL}/${urlSegment}`
 
-  const url = isDevEnv
-    ? `http://www.localhost:4000/${urlSegment}`
-    : `https://cart.cyclic.app/${urlSegment}`
-
-  return url
+	return url
 }

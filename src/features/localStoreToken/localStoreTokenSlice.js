@@ -1,17 +1,18 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit'
+
 const initialState = {
-  tokenLocalStore: localStorage.getItem("token"),
-};
+	token: localStorage.getItem('token'),
+}
 
-export const localSToken = createSlice({
-  name: "localSToken",
-  initialState,
-  reducers: {
-    getLocalStoreToken: (state, action) => {
-      state.tokenLocalStore = action.payload;
-    },
-  },
-});
+export const localStorageToken = createSlice({
+	name: 'localSToken',
+	initialState,
+	reducers: {
+		setLocalStorageToken: (state, action) => {
+			state.token = action.payload
+		},
+	},
+})
 
-export const { getLocalStoreToken } = localSToken.actions;
-export default localSToken.reducer;
+export const { setLocalStorageToken } = localStorageToken.actions
+export default localStorageToken.reducer

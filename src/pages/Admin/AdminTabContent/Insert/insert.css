@@ -1,0 +1,15 @@
+.insert-form {
+	display: flex;
+	gap: 5px;
+}
+
+.insert-input {
+	min-width: 80px;
+	padding-inline: 0.5em;
+	margin-left: auto;
+	border-radius: 5px;
+}
+
+.sumit {
+	padding: 5px;
+}
