@@ -1,0 +1,10 @@
+.tabs-content {
+	background-color: rgb(202, 199, 199);
+	padding: 15px;
+	margin: auto;
+	min-height: 100%;
+	border-radius: 5px;
+	border-top-left-radius: 0;
+	flex-grow: 1;
+	margin-bottom: 1em;
+}
