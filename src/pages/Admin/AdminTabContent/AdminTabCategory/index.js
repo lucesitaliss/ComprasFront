@@ -30,48 +30,74 @@ export default function AdminTabCategory() {
 			const result = await fetch(urlApiCategories, {
 				headers: { 'x-acces-token': token },
 			})
-			if (result.ok) {
-				const categories = await result.json()
+      const categories = await result.json();
+			if (result.status === 200) {
 				dispatch(addCategories(categories))
-			}
+			} else {
+        console.error(categories.message)
+      }
 		} catch (error) {
-			console.error(error)
+      Swal.fire({
+				Title:'Error',
+				text:`${error}`,
+				icon: 'error'
+			 })
 		}
 	}
 
 	const deleteCategorie = async (idCategory) => {
 		try {
 			const urlApiDeleteCategory = getApiUrl(`category/delete/${idCategory}`)
-			await fetch(urlApiDeleteCategory, {
+			const result = await fetch(urlApiDeleteCategory, {
 				method: 'PUT',
 				headers: { 'x-acces-token': token },
 			})
-			allCategories()
+      if(result.status === 200){
+        allCategories()
+        return({status : result.status, message: result.message})
+      }else{
+        return({status : result.status, message: result.message})
+    }
 		} catch (error) {
 			console.error(error)
 		}
 	}
 
-	const handleOnCLickDeleteCategorie = (categoryId, categoryName) => {
+	const handleOnCLickDeleteCategorie = async (categoryId, categoryName) => {
 		try {
-			Swal.fire({
+			const response = await Swal.fire({
 				title: 'Delete',
 				text: `Are you sure you want to delete the category ${categoryName}?`,
 				icon: 'info',
 				showCancelButton: true,
-			}).then((response) => {
-				if (response.isConfirmed) {
-					deleteCategorie(categoryId)
-					Swal.fire({
-						text: ' The category has been deleted successfully',
-						icon: 'success',
-						showConfirmButton: false,
-						timer: 1000,
-					})
-				}
 			})
+				if (response.isConfirmed) {
+					try{
+						 const statusDeletedCategorie = await deleteCategorie(categoryId)
+            if (statusDeletedCategorie.status === 200) {
+                	Swal.fire({
+                  text: ' The category has been deleted successfully',
+                  icon: 'success',
+                  showConfirmButton: false,
+                  timer: 1000,
+                })
+              }else{
+                Swal.fire({
+                  text: `${statusDeletedCategorie.message}`,
+                  icon: 'error',
+              })
+            }
+          }catch (error){
+            console.error('Error deleting category:', error);
+                Swal.fire({
+                    text: `${error}`,
+                    icon: 'error',
+                 })
+				
+          }
+        }
 		} catch (error) {
-			console.error()
+			console.error('Error displaying confirmation dialog:', error)
 		}
 	}
 
@@ -86,16 +112,22 @@ export default function AdminTabCategory() {
 					'x-acces-token': token,
 				},
 			})
-			if (result.ok) {
-				await result.json()
+      const categoryEdited = await result.json()
+			if (result.status === 200) {
 				allCategories()
-			}
-		} catch (error) {}
+        return ({status: result.status, message: categoryEdited.message})
+			}else {
+        return ({status: result.status, message: categoryEdited.message})
+      }
+
+		} catch (error) {
+			console.error(error)
+		}
 	}
 
 	const handleOnClickEditCategory = async (currentCategory, id) => {
 		try {
-			const { value: editedCategory } = await Swal.fire({
+			const {value: editedCategory } = await Swal.fire({
 				title: 'Edit Category',
 				input: 'text',
 				inputLabel: 'Insert Category',
@@ -104,18 +136,32 @@ export default function AdminTabCategory() {
 			})
 
 			if (editedCategory) {
-				const bodyEditCategory = {
-					id,
-					category: editedCategory,
-				}
-				editCategory(bodyEditCategory)
-
-				await Swal.fire({
-					text: 'The category has been successfully modified',
-					icon: 'success',
-					showConfirmButton: false,
-					timer: 1000,
-				})
+        try{
+          const bodyEditCategory = {
+            id,
+            category: editedCategory,
+          }
+          const statusEditedCategory = await editCategory(bodyEditCategory)
+          if(statusEditedCategory.status === 200){
+            await Swal.fire({
+              text: 'The category has been successfully modified',
+              icon: 'success',
+              showConfirmButton: false,
+              timer: 1000,
+            })
+          }else{
+            Swal.fire({
+              text: `${statusEditedCategory.message}`,
+              icon: 'error',
+          })
+        }
+        }catch (error){
+          console.error('Error deleting category:', error);
+                Swal.fire({
+                    text: `${error}`,
+                    icon: 'error',
+                 })
+        }
 			}
 		} catch (error) {
 			console.error(error)
