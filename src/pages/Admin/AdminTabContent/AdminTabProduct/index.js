@@ -32,39 +32,58 @@ export default function AdminTabProduct() {
 				const result = await fetch(urlApyCategoryId, {
 					headers: { 'x-acces-token': token },
 				})
-				if (result.ok) {
-					const products = await result.json()
+				const products = await result.json()
+				if (result.status === 200) {
 					dispatch(addProducts(products))
 				}
+			}else {
+				console.error(products.message)
 			}
 		} catch (error) {
-			console.error(error)
+			Swal.fire({
+				Title:'Error',
+				text:`${error}`,
+				icon: 'error'
+			 })
 		}
 	}
 
-	const handleOnclikDeleteProduct = (idProduct, nameProduct) => {
+	const handleOnclikDeleteProduct = async (idProduct, nameProduct) => {
 		try {
 			const bodyDelete = {
 				id: idProduct,
 			}
-			Swal.fire({
+			const response = await Swal.fire({
 				title: 'Delete',
 				text: `Are you sure you want to delete the pruduct ${nameProduct}?`,
 				icon: 'info',
 				showCancelButton: true,
-			}).then((response) => {
-				if (response.isConfirmed) {
-					deleteProduct(bodyDelete)
-					Swal.fire({
-						text: ' The category has been deleted successfully',
-						icon: 'success',
-						showConfirmButton: false,
-						timer: 1000,
-					})
-				}
 			})
+          if (response.isConfirmed) {
+            const statusDeletedProduct = await deleteProduct(bodyDelete)
+
+            if(statusDeletedProduct.status === 200){
+            Swal.fire({
+              text: ' The category has been deleted successfully',
+              icon: 'success',
+              showConfirmButton: false,
+              timer: 1000,
+            })
+            }
+            else {
+            Swal.fire({
+              text: `${statusDeletedProduct.message}`,
+              icon: 'error',
+              })
+            }
+				  }
+			
 		} catch (error) {
-			console.error()
+			console.error('Error deleting product:', error);
+                Swal.fire({
+                    text: `${error}`,
+                    icon: 'error',
+                 })
 		}
 	}
 
@@ -79,38 +98,19 @@ export default function AdminTabProduct() {
 					'x-acces-token': token,
 				},
 			})
-			if (result.ok) {
+			const productDeleted = await result.json()
+			if (result.status === 200) {
 				productsByCategory()
+				return ({status: result.status, mesagge: result.mesagge})
+			}else{
+				return ({status: result.status, mesagge: result.mesagge})
 			}
 		} catch (error) {
 			console.error(error)
 		}
 	}
 
-	const handleOnClickEdit = async (currentProduct, id) => {
-		const { value: editProduct } = await Swal.fire({
-			title: 'Edit Product',
-			input: 'text',
-			inputLabel: 'insert Category',
-			inputValue: currentProduct,
-			showCancelButton: true,
-		})
-		if (editProduct) {
-			const bodyEdit = {
-				product: editProduct,
-				id,
-			}
-			editCategory(bodyEdit)
-			await Swal.fire({
-				text: 'The product has been successfully modified',
-				icon: 'success',
-				showConfirmButton: false,
-				timer: 1000,
-			})
-		}
-	}
-
-	const editCategory = async (bodyEdit) => {
+  const editProductF = async (bodyEdit) => {
 		try {
 			const urlApiInsertProduct = getApiUrl('product')
 			const result = await fetch(urlApiInsertProduct, {
@@ -121,12 +121,61 @@ export default function AdminTabProduct() {
 					'x-acces-token': token,
 				},
 			})
-			if (result.ok) {
-				productsByCategory()
-			}
+      const categoryEdited = await result.json()
+			if (result.satus === 200) {
+			  productsByCategory()
+        return({status: result.status, message : categoryEdited.mesagge })
+			}else {
+        return({status: result.status, message : categoryEdited.mesagge })
+      }
 		} catch (error) {
 			console.error(error)
 		}
+	}
+	const handleOnClickEdit = async (currentProduct, id) => {
+		const { value: editProduct } = await Swal.fire({
+			title: 'Edit Product',
+			input: 'text',
+			inputLabel: 'insert Category',
+			inputValue: currentProduct,
+			showCancelButton: true,
+		})
+		if (editProduct) {
+      try{
+
+        const bodyEdit = {
+          product: editProduct,
+          id,
+        }
+        
+        const statusEditProduct = await editProductF(bodyEdit)
+
+        if(statusEditProduct.status === 200){
+          await Swal.fire({
+            text: 'The product has been successfully modified',
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 1000,
+          })
+          const updatedProducts = products.map(product =>
+            product.product_id === id ? { ...product, product_name: editProduct } : product
+          );
+
+          dispatch(addProducts(updatedProducts)); 
+        }else {
+          Swal.fire({
+            text: `${statusEditProduct.message}`,
+            icon: 'error',
+          })
+        }
+      }catch(error){
+        console.error('Error deleting category:', error);
+        Swal.fire({
+            text: `${error}`,
+            icon: 'error',
+         })
+      }
+    }
 	}
 
 	return (

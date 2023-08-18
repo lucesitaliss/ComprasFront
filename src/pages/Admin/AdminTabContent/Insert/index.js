@@ -6,6 +6,7 @@ import { insertNewCategory } from '../../../../features/listCategory/listCategor
 import { insertNewProduct } from '../../../../features/listProducts/listProductsSlice'
 import { getApiUrl } from '../../../../api'
 import { setLocalStorageToken } from '../../../../features/localStoreToken/localStoreTokenSlice'
+import Swal from 'sweetalert2'
 
 export default function Insert({ name }) {
 	const dispatch = useDispatch()
@@ -36,11 +37,16 @@ export default function Insert({ name }) {
 							'content-type': 'application/json',
 							'x-acces-token': token,
 						},
+						
 					})
-					if (result.ok) {
-						const newCategory = await result.json()
+          const newCategory = await result.json()
+					if (result.status === 200) {
 						dispatch(insertNewCategory(newCategory))
 					}
+					else {
+						console.error(newCategory.message);
+					}
+					
 				}
 				if (name === 'product') {
 					const apiUrl = getApiUrl('product')
@@ -52,16 +58,24 @@ export default function Insert({ name }) {
 							'x-acces-token': token,
 						},
 					})
-					if (result.ok) {
-						const newProduct = await result.json()
+          const newProduct = await result.json()
+					if (result.status === 200) {
 						dispatch(insertNewProduct(newProduct))
+					}else {
+						console.error(newProduct.message)
 					}
+					
 				}
 				e.target.reset()
 			}
 		} catch (error) {
-			console.error(error)
+			 Swal.fire({
+				Title:'Error',
+				text:`${error}`,
+				icon: 'error'
+			 })
 		}
+
 	}
 
 	const handleChange = (event) => {
