@@ -123,7 +123,7 @@ export default function AdminTabProduct() {
 			})
       const categoryEdited = await result.json()
 			if (result.satus === 200) {
-				productsByCategory()
+			  productsByCategory()
         return({status: result.status, message : categoryEdited.mesagge })
 			}else {
         return({status: result.status, message : categoryEdited.mesagge })
@@ -157,6 +157,11 @@ export default function AdminTabProduct() {
             showConfirmButton: false,
             timer: 1000,
           })
+          const updatedProducts = products.map(product =>
+            product.product_id === id ? { ...product, product_name: editProduct } : product
+          );
+
+          dispatch(addProducts(updatedProducts)); 
         }else {
           Swal.fire({
             text: `${statusEditProduct.message}`,
@@ -172,8 +177,6 @@ export default function AdminTabProduct() {
       }
     }
 	}
-
-	
 
 	return (
 		<>

@@ -31,3 +31,6 @@ export const getApiUrl = (urlSegment) => {
 
 - React JS
 - Redux toolkit
+
+## Deploy
+npm run deploy
