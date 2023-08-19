@@ -25,3 +25,5 @@ export default function AdminTabContent(props) {
 		</div>
 	)
 }
+
+AdminTabContent.displayName = 'AdminTabContent'

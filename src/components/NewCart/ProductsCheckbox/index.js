@@ -151,6 +151,7 @@ export default function ProductsCheckbox() {
 		<div className="container">
 			<form className="formProductCheckbox" onSubmit={handleSumit}>
 				<div className="buttonsContainers">
+					<CategorySelect />
 					<button className="primary" disabled={!isChecked.length} name="send">
 						{cart ? 'Actualizar' : 'Create List'}
 					</button>

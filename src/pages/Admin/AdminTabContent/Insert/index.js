@@ -96,3 +96,5 @@ export default function Insert({ name }) {
 		</form>
 	)
 }
+
+Insert.displayName = 'Insert'

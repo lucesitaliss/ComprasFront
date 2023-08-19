@@ -219,3 +219,5 @@ export default function Cart() {
 		</div>
 	)
 }
+
+Cart.displayName = 'Cart'

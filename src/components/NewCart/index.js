@@ -7,7 +7,6 @@ import './newCart.css'
 export default function NewCart() {
 	return (
 		<div className="newCart">
-			<CategorySelect />
 			<ProductsCheckbox />
 		</div>
 	)

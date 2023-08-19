@@ -55,7 +55,11 @@ button:active {
 }
 
 #root {
-	display: flex;
-	flex-direction: column;
 	min-height: 100vh;
+}
+
+select {
+    border-radius: 5px;
+    min-width: 120px;
+    padding-inline: .5em;
 }

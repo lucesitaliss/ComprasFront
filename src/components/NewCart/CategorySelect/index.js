@@ -41,15 +41,15 @@ export default function CategorySelect() {
 	}, [])
 
 	return (
-		<div className="select-container">
-			<select onChange={handleChange} value={categoryId}>
-				<option value="">Select category</option>
-				{categories.map((category) => (
-					<option key={category.category_id} value={category.category_id}>
-						{category.category_name}
-					</option>
-				))}
-			</select>
-		</div>
+		<select onChange={handleChange} value={categoryId}>
+			<option value="">Select category</option>
+			{categories.map((category) => (
+				<option key={category.category_id} value={category.category_id}>
+					{category.category_name}
+				</option>
+			))}
+		</select>
 	)
 }
+
+CategorySelect.displayName = 'CategorySelect'
