@@ -1,6 +1,6 @@
 {
   "name": "client",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "homepage": "https://lucesitaliss.github.io/shopping-list/",
   "scripts": {
@@ -24,9 +24,7 @@
     "react-redux": "^8.0.4",
     "react-router-dom": "^5.3.4",
     "react-scripts": "5.0.1",
-    "save-dev": "^0.0.1-security",
     "socket.io-client": "^4.5.4",
-    "sweetalert": "^2.1.2",
     "sweetalert2": "^11.6.10",
     "web-vitals": "^2.1.4"
   },

@@ -1,13 +1,11 @@
+### Start local
+npm start
+
 # Shopping-list is a project with learning porpose and was created with [Create React App](https://github.com/lucesitaliss/shopping-list).
 
 ## It is hosted using GitHub Pages at:
 
 ### [Follow this link](https://lucesitaliss.github.io/shopping-list/)
-
-### Guest user
-
-    user: invitado
-    password: invitado.123
 
 ### First Steps
 
@@ -33,3 +31,6 @@ export const getApiUrl = (urlSegment) => {
 
 - React JS
 - Redux toolkit
+
+## Deploy
+npm run deploy

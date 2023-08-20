@@ -5,35 +5,36 @@
     
 }
 
-.formProductCheckbox{
+.form-product-checkbox {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     column-gap: 10px;
 }
 
-.productSelect {
+.product-select {
     padding: 2px 8px;
-    width: fit-content;
 }
 
+.product-select:hover {
+    background-color: #e7e7e7;
+}  
 
-.buttonsContainers{
-    margin: 5px;
+.buttons-containers {
+    margin-block: 1em;
     text-align: center;
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', Verdana, sans-serif; 
     display: flex;
     justify-content: center;
     gap: 6px;
-    
-    }
+}
  
-.checkboxContainer {
+.checkbox-container {
     display: flex;
     flex-direction: column;
 }
 
-.checkboxSpin {
+.checkbox-spin {
     /* width: 100px;
     height: 100px; */
     /* background-color: #0CB1C4; */

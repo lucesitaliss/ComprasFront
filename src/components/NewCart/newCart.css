@@ -1,6 +1,4 @@
-.selectAndClear{
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content:flex-start
-    
+.new-cart {
+    max-width: 1200px;
+    margin: auto;
 }

@@ -1,55 +1,55 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addCategorySelect } from "../../../features/category/categorySlice";
-import { getLocalStoreToken } from "../../../features/localStoreToken/localStoreTokenSlice";
-import localStoreToken from "../../Utils/localStoreToken";
-import { getApiUrl } from "../../../api";
-import "./categorySelect.css";
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { setLocalStorageToken } from '../../../features/localStoreToken/localStoreTokenSlice'
+import { getToken } from '../../../utils/localStorage'
+import { getApiUrl } from '../../../api'
+import './categorySelect.css'
+import { addCategorySelect } from '../../../features/category/categorySlice'
 
-export function CategorySelect() {
-  const [categories, setCategories] = useState([]);
-  const { categoryId } = useSelector((state) => state.categorySelect);
+export default function CategorySelect() {
+	const [categories, setCategories] = useState([])
+	const { categoryId } = useSelector((state) => state.categorySelect)
 
-  const dispatch = useDispatch();
+	const dispatch = useDispatch()
 
-  const { tokenLocalStore } = useSelector((state) => state.localStoreToken);
- 
-  useEffect(() => {
-    dispatch(getLocalStoreToken(localStoreToken()));
-  }, []);
+	const { token } = useSelector((state) => state.localStorageToken)
 
-  const handleChange = (e) => {
-    if (e.target.value > 0) {
-      dispatch(addCategorySelect(Number(e.target.value)));
-    }
-  };
+	useEffect(() => {
+		dispatch(setLocalStorageToken(getToken()))
+	}, [])
 
-  const getCategories = async () => {
-    try {
-      const apiUrl = getApiUrl("categories");
-      const response = await fetch(apiUrl, {
-        headers: {"x-acces-token": tokenLocalStore}
-      });
-      const result = await response.json();
+	const handleChange = (e) => {
+		if (e.target.value > 0) {
+			dispatch(addCategorySelect(Number(e.target.value)))
+		}
+	}
 
-      setCategories(result);
-    } catch (error) {}
-  };
+	const getCategories = async () => {
+		try {
+			const apiUrl = getApiUrl('categories')
+			const response = await fetch(apiUrl, {
+				headers: { 'x-acces-token': token },
+			})
+			const result = await response.json()
 
-  useEffect(() => {
-    getCategories();
-  }, []);
+			setCategories(result)
+		} catch (error) {}
+	}
 
-  return (
-    <div className="selectContainer">
-      <select onChange={handleChange} value={categoryId}>
-        <option value="">Select category</option>
-        {categories.map((category) => (
-          <option key={category.category_id} value={category.category_id}>
-            {category.category_name}
-          </option>
-        ))}
-      </select>
-    </div>
-  );
+	useEffect(() => {
+		getCategories()
+	}, [])
+
+	return (
+		<select onChange={handleChange} value={categoryId}>
+			<option value="">Select category</option>
+			{categories.map((category) => (
+				<option key={category.category_id} value={category.category_id}>
+					{category.category_name}
+				</option>
+			))}
+		</select>
+	)
 }
+
+CategorySelect.displayName = 'CategorySelect'
