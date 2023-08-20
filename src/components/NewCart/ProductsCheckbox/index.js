@@ -151,8 +151,8 @@ export default function ProductsCheckbox() {
 		}
 	}
 
-	if (!token) {
-		return <Redirect to="/login" />
+	if (shouldRedirect) {
+		return <Redirect to="/cart" />
 	}
 
 	return (
