@@ -29,7 +29,7 @@ export default function Navbar() {
 
 	const adminNav = {
 		cart: { id: 'cart', title: 'Cart', to: '/' },
-		newCart: { id: 'newcart', title: 'New Cart', to: '/newcart' },
+		newCart: { id: 'newCart', title: 'Create cart', to: '/newcart' },
 		admin: { id: 'admin', title: 'Admin', to: '/admin' },
 		login: {
 			id: 1,
@@ -45,8 +45,12 @@ export default function Navbar() {
 			<nav>
 				{Object.values(adminNav).map((nav) => {
 					const isCurrent = pathname === nav.to
+					const isNewCartLink = nav.id === 'newCart'
 					const isCartLink = nav.id === 'cart'
 					const hasOpenCart = Object.entries(cart).some((cart) => cart)
+					
+					if (!hasOpenCart && isCartLink) return null
+
 					return (
 						<NavLink
 							key={nav.id}
@@ -54,7 +58,7 @@ export default function Navbar() {
 							onClick={nav.onClick}
 							className={isCurrent ? 'nav-selected' : 'nav-not-selected'}
 						>
-							{hasOpenCart && isCartLink ? 'Update' : nav.title}
+							{hasOpenCart && isNewCartLink ? 'Update cart' : nav.title}
 						</NavLink>
 					)
 				})}
