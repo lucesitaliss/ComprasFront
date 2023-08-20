@@ -8,6 +8,7 @@ import './productCheckbox.css'
 import 'animate.css'
 import { getApiUrl } from '../../../api'
 import { getToken } from '../../../utils/localStorage'
+import CategorySelect from '../CategorySelect'
 
 export default function ProductsCheckbox() {
 	const dispatch = useDispatch()
@@ -149,11 +150,11 @@ export default function ProductsCheckbox() {
 
 	return (
 		<div className="container">
-			<form className="formProductCheckbox" onSubmit={handleSumit}>
-				<div className="buttonsContainers">
+			<form className="form-product-checkbox" onSubmit={handleSumit}>
+				<div className="buttons-containers">
 					<CategorySelect />
 					<button className="primary" disabled={!isChecked.length} name="send">
-						{cart ? 'Actualizar' : 'Create List'}
+						{cart ? 'Update and navigate' : 'Create List'}
 					</button>
 					<button disabled={!isChecked.length} onClick={clean}>
 						Clear
@@ -165,17 +166,17 @@ export default function ProductsCheckbox() {
 						<div className="spinner"></div>
 					</div>
 				) : (
-					<div className="checkboxContainer">
+					<div className="checkbox-container">
 						{products.map((product) => {
 							return (
-								<label className="productSelect" key={product.product_id}>
+								<label className="product-select" key={product.product_id}>
 									<input
 										id={product.product_id}
 										type="checkbox"
 										onChange={handleChange}
 										checked={product.checked}
 										className={
-											loadingListItems[product.product_id] ? 'checkboxSpin' : ''
+											loadingListItems[product.product_id] ? 'checkbox-spin' : ''
 										}
 									/>
 									{product.product_name}
