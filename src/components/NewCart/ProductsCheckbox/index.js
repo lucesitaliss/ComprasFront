@@ -10,6 +10,8 @@ import 'animate.css'
 import { getApiUrl } from '../../../api'
 import { getToken } from '../../../utils/localStorage'
 import CategorySelect from '../CategorySelect'
+import Swal from 'sweetalert2'
+import {redirect} from 'react-router-dom'
 
 export default function ProductsCheckbox() {
 	const dispatch = useDispatch()
@@ -35,6 +37,8 @@ export default function ProductsCheckbox() {
 		products && changeChecked()
 	}, [products])
 
+  const [redirectCart, setRedirectCart] = useState(false)
+
 	const getProductsByCategory = async () => {
 		try {
 			if (categoryId > 0) {
@@ -43,11 +47,19 @@ export default function ProductsCheckbox() {
 				const response = await fetch(apiUrl, {
 					headers: { 'x-acces-token': token },
 				})
-				const result = await response.json()
-				dispatch(addProducts(result))
+				
+				if(response.status === 200){
+          const result = await response.json()
+					dispatch(addProducts(result))
+				}
 			}
+
 		} catch (error) {
 			console.error({error})
+      Swal.fire({
+        text: `${error}`,
+        icon: 'error',
+     })
 		} finally {
 			setLoadingProducts(false)
 		}
@@ -74,13 +86,17 @@ export default function ProductsCheckbox() {
 					'x-acces-token': token,
 				},
 			})
-
-			if (updateChecked.ok) {
-				const updateProduct = await updateChecked.json()
+      
+			if (updateChecked.status === 200) {
+        const updateProduct = await updateChecked.json()
 				dispatch(changeCheckedAccion(updateProduct[0]))
 			}
 		} catch (error) {
-			console.error({ error })
+			console.error({error})
+      Swal.fire({
+        text: `${error}`,
+        icon: 'error',
+     })
 		} finally {
 			setLoadingListItems((prev) => ({
 				...prev,
@@ -97,7 +113,7 @@ export default function ProductsCheckbox() {
 					'x-acces-token': token,
 				},
 			})
-			if (getProducts.ok) {
+			if (getProducts.status === 200) {
 				const allProducts = await getProducts.json()
 				const selectedProducts = allProducts.filter(
 					(products) => products.checked === true,
@@ -112,19 +128,24 @@ export default function ProductsCheckbox() {
 					},
 				})
 				const postCart = await response.json()
-				if (response.ok) {
+				if (response.status === 200) {
 					dispatch(addCart(postCart))
 					setShouldRedirect(true)
 				}
 			}
 		} catch (error) {
-			console.error({ error })
+			console.error({error})
+      Swal.fire({
+        text: `${error}`,
+        icon: 'error',
+     })
 		}
 	}
 
 	const handleSumit = async (e) => {
 		e.preventDefault()
-		insertCart()
+		await insertCart()
+    setRedirectCart(true)
 	}
 
 	const clean = async (e) => {
@@ -192,6 +213,7 @@ export default function ProductsCheckbox() {
 						})}
 					</div>
 				)}
+        {redirectCart ? <Redirect to="/" /> : null}
 			</form>
 		</div>
 	)
