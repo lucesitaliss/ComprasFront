@@ -41,3 +41,11 @@ width:auto;
   width: 150px;
   
 }
+
+.errorLogin{
+  background: rgb(226, 182, 182);
+  font-family: "roboto", sans-serif;
+  font-size: 16px;
+  padding:5px;
+  margin-top: 10px;
+}
