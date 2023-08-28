@@ -152,7 +152,7 @@ export default function ProductsCheckbox() {
 	}
 
 	if (shouldRedirect) {
-		return <Redirect to="/cart" />
+		return <Redirect to="/" />
 	}
 
 	return (

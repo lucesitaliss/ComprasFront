@@ -36,10 +36,11 @@ export default function Login() {
 		setDataLogin({ ...dataLogin, [name]: value })
 	}
 
+
   const errorMesage = {
-    401: {id: 401, message:'Required user information'},
-    402: {id:402, message:'Incorrect Credentials'},
-    403: {id:403, message:'The username or password are not correct'}
+    401: 'Required user information',
+    402:'Incorrect Credentials',
+    403:'The username or password are not correct'
 
   }
 
@@ -53,16 +54,12 @@ export default function Login() {
 				headers: { 'content-type': 'application/json' },
 			})
 
-      Object.values(errorMesage).map((error) =>{
-        if (response.status === error.id){
-          setErrorLoginText(error.message)
-          setErrorLogin(true)
-        }else {
-          setErrorLoginText('Login is not possible')
-          setErrorLogin(true)
-        }
-      })
+     
     
+      setErrorLoginText(errorMesage[response.status]) 
+      setErrorLogin(errorMesage.hasOwnProperty(response.status))
+   
+
 			const token = await response.json()
 
 			

@@ -52,7 +52,7 @@ export default function Cart() {
 		}
 	}
 
-	const handleSumitCleanList = async (e) => {
+	const handleSumitClearList = async (e) => {
 		e.preventDefault()
 		const confirmationRequest = await Swal.fire({
 			text: 'Are you sure you want to delete the cart?',
@@ -87,6 +87,21 @@ export default function Cart() {
 			console.error(error)
 		}
 	}
+
+  const handleSubmitCleanSelected = async () => {
+      try{
+        const urlApiCart = getApiUrl('delete-cart-selected')
+        const response = await fetch(urlApiCart, {
+        method: 'DELETE',
+				headers: { 'x-acces-token': token },
+			})
+      if (response.ok){
+        getProductsSelections()
+      }
+    }catch (error) {
+      console.error(error)
+    }
+  }
 
 	const resetCheckedProduct = async (id) => {
 		const urlApiResetCheked = getApiUrl(`product/checked/reset/id/${id}`)
@@ -134,6 +149,7 @@ export default function Cart() {
 		deleteCartById(idCart)
 		resetCheckedProduct(idProduct)
 	}
+ 
 
 	const formatProductsForWhatsApp = (selectProducts) => {
 		let formattedText = ''
@@ -173,7 +189,8 @@ export default function Cart() {
 			<div className="title-container">
 				<h2>List</h2>
 				<div className="actions-container">
-					<button onClick={handleSumitCleanList}>Clear</button>
+					<button onClick={handleSumitClearList}>Clear</button>
+          <button onClick={handleSubmitCleanSelected}>Clean</button>
 					<button onClick={handleShareList} className="share-button">
 						<span>Share </span>
 						<WhatsApp className="wapp-icon" />

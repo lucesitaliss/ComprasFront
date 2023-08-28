@@ -35,20 +35,29 @@ export default function AdminTabUser() {
 
 	const handleSumit = async (event) => {
 		event.preventDefault()
-		const urlNewUser = getApiUrl('newuser')
-		const getNewUser = await fetch(urlNewUser, {
-			method: 'POST',
-			body: JSON.stringify(dataCreateUser),
-			headers: {
-				'content-type': 'application/json',
-				'x-acces-token': token,
-			},
-		})
-		if (getNewUser.ok) {
-			getUsers()
+    try{
+      const urlNewUser = getApiUrl('newuser')
+      const getNewUser = await fetch(urlNewUser, {
+        method: 'POST',
+        body: JSON.stringify(dataCreateUser),
+        headers: {
+          'content-type': 'application/json',
+          'x-acces-token': token,
+        },
+      })
+      if (getNewUser.ok) {
+        getUsers()
+      }
+      event.target.reset()
+    }catch(error){
+			Swal.fire({
+				Title:'Error',
+				text:`${error}`,
+				icon: 'error'
+			 })
 		}
-		event.target.reset()
-	}
+
+    }
 
 	const getUsers = async () => {
 		const urlGetUsers = getApiUrl('users')
@@ -111,14 +120,22 @@ export default function AdminTabUser() {
 				icon: 'info',
 				showCancelButton: true,
 			})
-			if (SwalDelete) {
-				deleteUser(id)
-				Swal.fire({
-					text: 'The user has been deleted successfully',
-					icon: 'secess',
-					showConfirmButton: false,
-					timer: 1000,
-				})
+			if (SwalDelete.isConfirmed) {
+        const statusDeleteUser= await deleteUser(id)
+
+        if(statusDeletedProduct.status === 200){
+          Swal.fire({
+            text: 'The user has been deleted successfully',
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 1000,
+          })
+        }else{
+          Swal.fire({
+            text: `${statusDeleteUser.message}`,
+            icon:'error',
+          })
+        }
 			}
 		} catch (error) {
 			console.error(error)
@@ -134,9 +151,13 @@ export default function AdminTabUser() {
 					'x-acces-token': token,
 				},
 			})
-			if (getDeleteUser.ok) {
+
+			if (getDeleteUser.status === 200) {
 				getUsers()
-			}
+        return ({status: getDeleteUser.status, message:getDeleteUser.message})
+			}else{
+        return ({status: getDeleteUser.status, message:getDeleteUser.message})
+      }
 		} catch (error) {
 			console.error(error)
 		}
