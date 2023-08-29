@@ -164,7 +164,7 @@ export default function ProductsCheckbox() {
 						{cart ? 'Update and navigate' : 'Create cart'}
 					</button>
 					<button disabled={!isChecked.length} onClick={clean}>
-						Clear
+						Clean
 					</button>
 				</div>
 

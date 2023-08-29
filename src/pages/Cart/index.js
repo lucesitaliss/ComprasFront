@@ -14,6 +14,7 @@ export default function Cart() {
 	const dispatch = useDispatch()
 
 	const { token } = useSelector((state) => state.localStorageToken)
+  
 
 	useEffect(() => {
 		dispatch(setLocalStorageToken(getToken()))
@@ -22,6 +23,19 @@ export default function Cart() {
 	useEffect(() => {
 		getProductsSelections()
 	}, [])
+
+  const changeCheckedCleanList = async () => {
+    try{
+      const urlApiCart = getApiUrl('product/checked-select-cart')
+      await fetch(urlApiCart,{
+        method: 'PUT',
+        headers: { 'x-acces-token': token },
+      })
+      
+    }catch(error){
+      console.error(error)
+    }
+  }
 
 	const getProductsSelections = async () => {
 		try {
@@ -39,6 +53,22 @@ export default function Cart() {
 		}
 	}
 
+	const cleanSelected = async (e) => {
+		try {
+			const apiUrl = getApiUrl('products/checked/reset')
+			const resetChecked = await fetch(apiUrl, {
+				method: 'PUT',
+				headers: { 'x-acces-token': token },
+			})
+
+			if (resetChecked.ok) {
+				await resetChecked.json()
+			}
+		} catch (error) {
+			console.error({error})
+		}
+	}
+
 	const deleteCart = async () => {
 		const urlApiCart = getApiUrl('cart')
 		const response = await fetch(urlApiCart, {
@@ -49,6 +79,7 @@ export default function Cart() {
 		if (response.ok) {
 			setSelectProducts([])
 			dispatch(addCart(''))
+      cleanSelected()
 		}
 	}
 
@@ -89,6 +120,7 @@ export default function Cart() {
 	}
 
   const handleSubmitCleanSelected = async () => {
+    await changeCheckedCleanList()
       try{
         const urlApiCart = getApiUrl('delete-cart-selected')
         const response = await fetch(urlApiCart, {
@@ -96,6 +128,7 @@ export default function Cart() {
 				headers: { 'x-acces-token': token },
 			})
       if (response.ok){
+        changeCheckedCleanList()
         getProductsSelections()
       }
     }catch (error) {
