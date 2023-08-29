@@ -79,20 +79,36 @@ export default function AdminTabUser() {
 			inputLable: 'Insert User',
 			inputValue: currentUser,
 			showCancelButton: true,
-		})
-		if (editUser) {
-			const bodyupdateUser = {
-				user: editUser,
-				id: id,
-			}
-			updatedUser(bodyupdateUser)
-			await Swal.fire({
-				text: 'The user has been successfully modified',
-				icon: 'sucess',
-				showConfirmButton: false,
-				timer: 1000,
-			})
-		}
+		})  
+		try{
+    if (editUser) {
+        const bodyupdateUser = {
+          user: editUser,
+          id: id,
+        }
+        const statusUpdateUser = await updatedUser(bodyupdateUser)
+        
+        if(statusUpdateUser.status ===200){
+          await Swal.fire({
+            text: 'The user has been successfully modified',
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 1000,
+          })
+        }else {
+          Swal.fire({
+            text: `${statusUpdateUser.message}`,
+            icon: 'error',
+          })
+        }
+    }
+      }catch(error){
+        console.error('Error deleting user:', error);
+        Swal.fire({
+            text: `${error}`,
+            icon: 'error',
+         })
+      }
 	}
 	const updatedUser = async (bodyupdateUser) => {
 		const urlUpdateUser = getApiUrl('updateuser')
@@ -105,9 +121,12 @@ export default function AdminTabUser() {
 					'x-acces-token': token,
 				},
 			})
-			if (getUpdateUser.ok) {
-				getUsers()
-			}
+			if (getUpdateUser.status === 200) {
+        getUsers()
+        return {status: getUpdateUser.status, message: getUpdateUser.message}
+			}else{
+        return {status: getUpdateUser.status, message: getUpdateUser.message}
+      }
 		} catch (error) {
 			console.error(error)
 		}
@@ -121,9 +140,9 @@ export default function AdminTabUser() {
 				showCancelButton: true,
 			})
 			if (SwalDelete.isConfirmed) {
-        const statusDeleteUser= await deleteUser(id)
+        const statusDeleteUser = await deleteUser(id)
 
-        if(statusDeletedProduct.status === 200){
+        if(statusDeleteUser.status === 200){
           Swal.fire({
             text: 'The user has been deleted successfully',
             icon: 'success',
@@ -175,6 +194,7 @@ export default function AdminTabUser() {
 				<input
 					name="password"
 					placeholder="Password"
+          type="password"
 					className="insert-input"
 					onChange={handlechange}
 				/>
