@@ -142,7 +142,6 @@ export default function AdminTabProduct() {
 		})
 		if (editProduct) {
       try{
-
         const bodyEdit = {
           product: editProduct,
           id,
@@ -169,7 +168,7 @@ export default function AdminTabProduct() {
           })
         }
       }catch(error){
-        console.error('Error deleting category:', error);
+        console.error('Error deleting product:', error);
         Swal.fire({
             text: `${error}`,
             icon: 'error',

@@ -1,68 +1,59 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addCart } from '../../features/cart/cartSlice'
-import { setLocalStorageToken } from '../../features/localStoreToken/localStoreTokenSlice'
-import { getToken } from '../../utils/localStorage'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import Swal from 'sweetalert2'
 import { getApiUrl } from '../../api'
 import './cart.css'
 import WhatsApp from '../../components/images/wapp'
+import useFetch from '../../hooks/useFetch'
+import useAlert from '../../hooks/useAlert'
 
 export default function Cart() {
-	const [selectProducts, setSelectProducts] = useState({})
 	const dispatch = useDispatch()
-
 	const { token } = useSelector((state) => state.localStorageToken)
+	const { executeRequest } = useFetch()
+	const Alert = useAlert()
 
-	useEffect(() => {
-		dispatch(setLocalStorageToken(getToken()))
-	}, [])
+	const [selectProducts, setSelectProducts] = useState({})
 
 	useEffect(() => {
 		getProductsSelections()
 	}, [])
 
 	const getProductsSelections = async () => {
-		try {
-			const urlApiCart = getApiUrl('cart')
-			const response = await fetch(urlApiCart, {
-				headers: { 'x-acces-token': token },
+		const result = await executeRequest('cart')
+		setSelectProducts(result)
+		dispatch(addCart(result))
+	}
+
+	const cleanSelected = async (e) => {
+		executeRequest('products/checked/reset', { method: 'PUT' }).then(() => {
+			Alert.success('The list has been cleaned successfully', {
+				timer: 1500,
 			})
-			const result = await response.json()
-			if (response.ok) {
-				setSelectProducts(result)
-				dispatch(addCart(result))
-			}
-		} catch (error) {
-			console.error(error)
-		}
+		})
 	}
 
 	const deleteCart = async () => {
-		const urlApiCart = getApiUrl('cart')
-		const response = await fetch(urlApiCart, {
-			method: 'DELETE',
-			headers: { 'x-acces-token': token },
-		})
+		await executeRequest('cart', { method: 'DELETE' })
 
-		if (response.ok) {
-			setSelectProducts([])
-			dispatch(addCart(''))
-		}
+		setSelectProducts([])
+		dispatch(addCart(''))
+		cleanSelected()
 	}
 
-	const handleSumitCleanList = async (e) => {
-		e.preventDefault()
-		const confirmationRequest = await Swal.fire({
-			text: 'Are you sure you want to delete the cart?',
-			icon: 'delete',
+	const handleSumitClearList = async (event) => {
+		event.preventDefault()
+		Alert.warning('Are you sure you want to delete the cart?', {
+			icon: 'warning',
+			toast: false,
+			timer: null,
+			position: 'center',
 			showConfirmButton: true,
 			showCancelButton: true,
+			callback: () => deleteCart(),
 		})
-		if (confirmationRequest.isConfirmed) {
-			deleteCart()
-		}
 	}
 
 	const handleSubmitProductList = async (id, selected) => {
@@ -86,6 +77,31 @@ export default function Cart() {
 		} catch (error) {
 			console.error(error)
 		}
+	}
+
+	const handleSubmitCleanSelected = async () => {
+		Alert.warning(
+			'Are you sure you want to delete checked products from list?',
+			{
+				icon: 'warning',
+				toast: false,
+				timer: null,
+				position: 'center',
+				showConfirmButton: true,
+				showCancelButton: true,
+				callback: async () => {
+					executeRequest('product/checked-select-cart', { method: 'PUT' }).then(
+						() => {
+							Alert.success('The list has been cleaned successfully', {
+								timer: 2000,
+							})
+						},
+					)
+					await executeRequest('delete-cart-selected', { method: 'DELETE' })
+					getProductsSelections()
+				},
+			},
+		)
 	}
 
 	const resetCheckedProduct = async (id) => {
@@ -173,7 +189,8 @@ export default function Cart() {
 			<div className="title-container">
 				<h2>List</h2>
 				<div className="actions-container">
-					<button onClick={handleSumitCleanList}>Clear</button>
+					<button onClick={handleSumitClearList}>Clear</button>
+					<button onClick={handleSubmitCleanSelected}>Clean</button>
 					<button onClick={handleShareList} className="share-button">
 						<span>Share </span>
 						<WhatsApp className="wapp-icon" />
@@ -181,7 +198,7 @@ export default function Cart() {
 				</div>
 			</div>
 
-			{Object.entries(selectProducts).map(
+			{Object.entries(selectProducts || {}).map(
 				([categoryName, categoryProducts]) => (
 					<div className="container-list" key={categoryName}>
 						<h3 className="title-category">{categoryName}</h3>

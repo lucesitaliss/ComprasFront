@@ -47,8 +47,8 @@ export default function Navbar() {
 					const isCurrent = pathname === nav.to
 					const isNewCartLink = nav.id === 'newCart'
 					const isCartLink = nav.id === 'cart'
-					const hasOpenCart = Object.entries(cart).some((cart) => cart)
-					
+					const hasOpenCart = Object.entries(cart || {}).some((cart) => cart)
+
 					if (!hasOpenCart && isCartLink) return null
 
 					return (
