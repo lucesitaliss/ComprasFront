@@ -5,48 +5,51 @@ import { getToken, removeToken } from '../../utils/localStorage'
 import './login.css'
 import { Redirect } from 'react-router-dom'
 import { setLocalStorageToken } from '../../features/localStoreToken/localStoreTokenSlice'
+import useAlert from '../../hooks/useAlert'
+import { errorMesageByStatusCode } from '../../constants/errors'
 
 export default function Login() {
+	const dispatch = useDispatch()
+	const { token } = useSelector((state) => state.localStorageToken)
+	const Alert = useAlert()
+
+	const [redirectCart, setRedirectCart] = useState(false)
+	const [tokenExpired, setTokenExpired] = useState(false)
 	const [dataLogin, setDataLogin] = useState({
 		name: '',
 		password: '',
 	})
-	const [redirectCart, setRedirectCart] = useState(false)
-  const [tokenExpired, setTokenExpired] =useState(false)
-  const [errorLogin, setErrorLogin] = useState(false)
-  const [errorLoginText, setErrorLoginText] = useState("")
-
-	const dispatch = useDispatch()
-	const { token } = useSelector((state) => state.localStorageToken)
 
 	useEffect(() => {
 		dispatch(setLocalStorageToken(getToken()))
 	}, [])
 
-  //Expiration Token
-  useEffect(() => {
-   if (tokenExpired){
-    setRedirectCart(true)
-   }
-  },[tokenExpired])
-
+	//Expiration Token
+	useEffect(() => {
+		if (tokenExpired) {
+			setRedirectCart(true)
+		}
+	}, [tokenExpired])
 
 	const handlechange = (event) => {
 		const { name, value } = event.target
 		setDataLogin({ ...dataLogin, [name]: value })
 	}
 
-
-  const errorMesage = {
-    401: 'Required user information',
-    402:'Incorrect Credentials',
-    403:'The username or password are not correct'
-
-  }
-
 	const handleSumitLogin = async (event) => {
+		event.preventDefault()
+		const Toast = Alert.Swal.mixin({
+			toast: true,
+			position: 'top-end',
+			timer: 3000,
+			timerProgressBar: true,
+			showConfirmButton: false,
+		}).fire({
+			icon: 'info',
+			text: 'Login in progress',
+		})
+
 		try {
-			event.preventDefault()
 			const urlLoging = getApiUrl('login')
 			const response = await fetch(urlLoging, {
 				method: 'POST',
@@ -54,46 +57,52 @@ export default function Login() {
 				headers: { 'content-type': 'application/json' },
 			})
 
-     
-    
-      setErrorLoginText(errorMesage[response.status]) 
-      setErrorLogin(errorMesage.hasOwnProperty(response.status))
-   
+			if (errorMesageByStatusCode.hasOwnProperty(response.status)) {
+				Alert.error(errorMesageByStatusCode[response.status], {
+					icon: 'error',
+					timer: 3000,
+				})
+			}
 
 			const token = await response.json()
 
-			
-      if (token) {
-				localStorage.setItem('token', token)
-				dispatch(setLocalStorageToken(token))
-				setRedirectCart(true)
+			if (token) {
+				Toast.close()
+				Alert.success('Loading successfuly, you are being redirected', {
+					callback: () => {
+						localStorage.setItem('token', token)
+						dispatch(setLocalStorageToken(token))
+						setRedirectCart(true)
+						setDataLogin({ name: '', password: '' })
+					},
+				})
 			}
-      
+
 			event.target.reset()
-      //expired Token
-      const tokenExpiration = 7200 //time in second
-      const tokenTimer = setTimeout(() => {
-        removeToken()
-        dispatch(setLocalStorageToken(null))
-        setTokenExpired(true)
-      }, tokenExpiration * 1000)
-  
-      return () => {
-        clearTimeout(tokenTimer)
-      }
+
+			//expired Token
+			const tokenExpiration = 7200 //time in second
+			const tokenTimer = setTimeout(() => {
+				removeToken()
+				dispatch(setLocalStorageToken(null))
+				setTokenExpired(true)
+			}, tokenExpiration * 1000)
+
+			return () => {
+				clearTimeout(tokenTimer)
+			}
 		} catch (error) {
-			console.error(error)
-      
+			console.error({ error })
 		}
 	}
-  
+
 	return (
 		<form className="loginForm" onSubmit={handleSumitLogin}>
 			<input placeholder="Enter the user" name="name" onChange={handlechange} />
 			<input
 				placeholder="Enter the password"
 				name="password"
-        type="password"
+				type="password"
 				onChange={handlechange}
 			/>
 			<input
@@ -103,7 +112,6 @@ export default function Login() {
 				disabled={token}
 			/>
 			{redirectCart ? <Redirect to="/" /> : null}
-      {errorLogin ? <div className='errorLogin'>{errorLoginText}</div> : null}
 		</form>
 	)
 }
